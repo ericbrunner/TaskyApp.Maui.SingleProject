@@ -39,7 +39,7 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
     private async Task FetchTodos()
     {
-        var todoRepo = App.Get<IDataStore<Todo>>();
+        var todoRepo = App.Get<ITodoStore>();
 
         if (todoRepo == null)
         {
