@@ -69,4 +69,12 @@
 	  <ProjectReference Include="..\TaskyApp.Contracts\TaskyApp.Contracts.csproj" />
 	</ItemGroup>
 
+
+
+	<ItemGroup>
+	  <Folder Include="CustomControls\" />
+	  <Folder Include="Platforms\Android\CustomRenderers\" />
+	  <Folder Include="Platforms\iOS\CustomRenderers\" />
+	</ItemGroup>
+
 </Project>
