@@ -185,7 +185,8 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
         }
         catch (PermissionException pe)
         {
-            _taskRunner.Log($"{pe.Message}");
+            //_taskRunner.Log($"{pe.Message}");
+            System.Diagnostics.Debug.WriteLine(pe.Message);
             await MainThread.InvokeOnMainThreadAsync(() => Application.Current.MainPage.DisplayAlert(
                 "Permission Error",
                 "Please goto Settings->TaskyApp and set Location Permission to Always", "Ok"));
@@ -254,20 +255,20 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
     private async Task DoWork(CancellationToken cancellationToken)
     {
-        _taskRunner.Log("Started");
+        System.Diagnostics.Debug.WriteLine("Started");
 
         //1st workload: get current geolocation 
         var request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
         var location = await Geolocation.GetLocationAsync(request, cancellationToken);
 
         var gpsPositon = location != null ? $"with {location.Latitude}/{location.Longitude} lat/lon" : string.Empty;
-        _taskRunner.Log($"{DateTime.Now:O}-{nameof(DoWork)} invoked {++_workerIndex} times {gpsPositon}");
+        System.Diagnostics.Debug.WriteLine($"{DateTime.Now:O}-{nameof(DoWork)} invoked {++_workerIndex} times {gpsPositon}");
 
         //2nd workload: fetch some todos form a REST Api endpoint
         await FetchTodos();
 
 
-        _taskRunner.Log("Finished");
+        System.Diagnostics.Debug.WriteLine("Finished");
     }
 
     #endregion
