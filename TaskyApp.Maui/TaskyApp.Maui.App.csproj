@@ -28,6 +28,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -74,7 +75,13 @@
 	<ItemGroup>
 	  <Folder Include="CustomControls\" />
 	  <Folder Include="Platforms\Android\CustomRenderers\" />
+	  <Folder Include="Platforms\Android\Handler\" />
 	  <Folder Include="Platforms\iOS\CustomRenderers\" />
+	  <Folder Include="Platforms\iOS\Handler\" />
 	</ItemGroup>
+
+
+
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionTaskyAppMauiAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>
