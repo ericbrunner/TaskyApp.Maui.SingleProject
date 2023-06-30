@@ -30,10 +30,21 @@ public static class MauiProgram
                 mauiHandlerCollection.AddCompatibilityRenderer(
                     typeof(MyEntry),
                     typeof(TaskyApp.Droid.CustomRenderer.MyEntryRenderer));
+
+                mauiHandlerCollection.AddHandler(
+                    typeof(MyButton),
+                    typeof(Platforms.Android.Handler.MyButtonHandler));
+
 #elif IOS
                 mauiHandlerCollection.AddCompatibilityRenderer(
                     typeof(MyEntry),
                     typeof(TaskyApp.iOS.CustomRenderer.MyEntryRenderer));
+
+
+                mauiHandlerCollection.AddHandler(
+                    typeof(MyButton),
+                    typeof(TaskyApp.Maui.SingleProject.Platforms.iOS.Handler.MyButtonHandler));
+
 #endif
             });
 
