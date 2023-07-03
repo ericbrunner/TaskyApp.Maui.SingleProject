@@ -27,19 +27,31 @@ public static class MauiProgram
             .ConfigureMauiHandlers((mauiHandlerCollection) =>
             {
 #if ANDROID
-                mauiHandlerCollection.AddCompatibilityRenderer(
+                // uncomment to use the old xamarin.forms renderer: 'MyEntryRenderer'
+                //mauiHandlerCollection.AddCompatibilityRenderer(
+                //    typeof(MyEntry),
+                //    typeof(TaskyApp.Droid.CustomRenderer.MyEntryRenderer));
+
+                // comment to use the old xamarin.forms renderer: 'MyEntryRenderer'
+                mauiHandlerCollection.AddHandler(
                     typeof(MyEntry),
-                    typeof(TaskyApp.Droid.CustomRenderer.MyEntryRenderer));
+                    typeof(Platforms.Android.Handler.MyEntryHandler));
+
 
                 mauiHandlerCollection.AddHandler(
                     typeof(MyButton),
                     typeof(Platforms.Android.Handler.MyButtonHandler));
 
 #elif IOS
-                mauiHandlerCollection.AddCompatibilityRenderer(
-                    typeof(MyEntry),
-                    typeof(TaskyApp.iOS.CustomRenderer.MyEntryRenderer));
+                // uncomment to use the old xamarin.forms renderer: 'MyEntryRenderer'
+                //mauiHandlerCollection.AddCompatibilityRenderer(
+                //    typeof(MyEntry),
+                //    typeof(TaskyApp.iOS.CustomRenderer.MyEntryRenderer));
 
+                // comment to use the old xamarin.forms renderer: 'MyEntryRenderer'
+                mauiHandlerCollection.AddHandler(
+                    typeof(MyEntry),
+                    typeof(Platforms.iOS.Handler.MyEntryHandler));
 
                 mauiHandlerCollection.AddHandler(
                     typeof(MyButton),
