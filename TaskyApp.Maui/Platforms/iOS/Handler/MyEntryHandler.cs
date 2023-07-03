@@ -35,4 +35,15 @@ public class MyEntryHandler : ViewHandler<IMyEntry, UITextField>
         System.Diagnostics.Debug.WriteLine($"MAUI-HANDLER: {nameof(CreatePlatformView)}. Native iOS '{nameof(UITextField)}' created.");
         return new UITextField();
     }
+
+    protected override void ConnectHandler(UITextField platformView)
+    {
+        base.ConnectHandler(platformView);
+
+        System.Diagnostics.Debug.WriteLine($"MAUI-HANDLER: {nameof(ConnectHandler)}");
+
+        platformView.TextColor = UIColor.White;
+        platformView.BackgroundColor = UIColor.Blue;
+        platformView.BorderStyle = UITextBorderStyle.RoundedRect;
+    }
 }
