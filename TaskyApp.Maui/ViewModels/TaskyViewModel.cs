@@ -179,6 +179,29 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
             throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
         }
 
+        if (DeviceInfo.Current.Platform == DevicePlatform.WinUI)
+        {
+            var permissionStatus = await Permissions.CheckStatusAsync<TPermission>();
+
+            if (permissionStatus == PermissionStatus.Granted)
+            {
+                Console.WriteLine($"Check Permission '{typeof(TPermission).Name}' Ok: {permissionStatus}");
+                return;
+            }
+
+            // Permissions.LocationAlways: Is required to get GPS coords when app is in background
+            var permission = await Permissions.RequestAsync<TPermission>();
+            Console.WriteLine($"Requested Permission '{typeof(TPermission).Name}' Status: {permissionStatus}");
+
+            if (permission == PermissionStatus.Granted)
+            {
+                return;
+            }
+
+            throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
+        }
+
+
         throw new NotImplementedException($"Platform: {DeviceInfo.Current.Platform} not supported");
     }
     private async Task<bool> CheckGeolocationPermission()

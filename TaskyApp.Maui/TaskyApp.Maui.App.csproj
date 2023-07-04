@@ -78,6 +78,7 @@
 	  <Folder Include="Platforms\Android\Handler\" />
 	  <Folder Include="Platforms\iOS\CustomRenderers\" />
 	  <Folder Include="Platforms\iOS\Handler\" />
+	  <Folder Include="Platforms\Windows\Tasky\" />
 	</ItemGroup>
 
 

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using TaskyApp.Contracts;
-using TaskyApp.Maui.SingleProject.CustomControls;
 using TaskyApp.Maui.SingleProject.Partials;
 using TaskyApp.Services;
 using TaskyApp.ViewModels;

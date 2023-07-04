@@ -1,4 +1,4 @@
-﻿namespace MauiApp2;
+﻿namespace TaskyApp.Maui.SingleProject.Views;
 
 public partial class MainPage : ContentPage
 {

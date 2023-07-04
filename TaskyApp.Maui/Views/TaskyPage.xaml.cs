@@ -10,16 +10,27 @@ namespace TaskyApp.Maui.SingleProject.Views
             InitializeComponent();
 
             BindingContext = App.Get<ITaskyViewModel>();
+
+            if (DeviceInfo.Current.Platform == DevicePlatform.WinUI) return;
+            
+            var myButton = new MyButton
+            {
+                Text = "In Shared Code", 
+                TextColor = Colors.Green
+            };
+
+            myButton.Clicked += OnMyButtonClicked;
+
+            RootLayout.Add(myButton);
         }
 
-        private void OnMyButtonClicked(object sender, EventArgs e)
+        private void OnMyButtonClicked(object? sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine($"MAUI-HANDLER: OnMyButtonClicked called.");
 
             if (sender is not IMyButton myButton) return;
-            
-            myButton.BackgroundColor = Equals(myButton.BackgroundColor, Colors.LightBlue) ? default : Colors.LightBlue;
 
+            myButton.BackgroundColor = Equals(myButton.BackgroundColor, Colors.LightBlue) ? default : Colors.LightBlue;
         }
     }
 }

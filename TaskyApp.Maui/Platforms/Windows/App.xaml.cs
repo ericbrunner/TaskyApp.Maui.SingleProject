@@ -1,4 +1,6 @@
-﻿using Microsoft.UI.Xaml;
+﻿using TaskyApp.Contracts;
+using TaskyApp.Maui.SingleProject.WinUI.Tasky;
+
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -21,9 +23,10 @@ public partial class App : MauiWinUIApplication
 
 	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp(RegisterPlatformAction);
 
+
     private static void RegisterPlatformAction(IServiceCollection? services)
     {
-        //TODO add your platform specific implementations to the IoC container
+        services?.AddSingleton<ITaskRunner, TaskRunner>();
     }
 }
 
