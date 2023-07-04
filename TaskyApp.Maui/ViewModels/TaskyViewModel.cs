@@ -110,72 +110,76 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
     private async Task CheckMauiPermission<TPermission>() where TPermission : Permissions.BasePermission, new()
     {
-#if ANDROID
-        var permissionStatus = await Permissions.CheckStatusAsync<TPermission>();
-
-        if (permissionStatus == PermissionStatus.Granted)
+        if (DeviceInfo.Current.Platform == DevicePlatform.Android)
         {
-            Console.WriteLine($"Check Permission '{typeof(TPermission).Name}' Ok: {permissionStatus}");
-            return;
-        }
+            var permissionStatus = await Permissions.CheckStatusAsync<TPermission>();
 
-        if (Permissions.ShouldShowRationale<TPermission>())
-        {
+            if (permissionStatus == PermissionStatus.Granted)
+            {
+                Console.WriteLine($"Check Permission '{typeof(TPermission).Name}' Ok: {permissionStatus}");
+                return;
+            }
+
+            if (Permissions.ShouldShowRationale<TPermission>())
+            {
+                throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
+            }
+
+            // Permissions.LocationAlways: Is required to get GPS coords when app is in background
+            var permission = await Permissions.RequestAsync<TPermission>();
+            Console.WriteLine($"Requested Permission '{typeof(TPermission).Name}' Status: {permissionStatus}");
+
+            if (permission == PermissionStatus.Granted)
+            {
+                return;
+            }
+
             throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
         }
 
-        // Permissions.LocationAlways: Is required to get GPS coords when app is in background
-        var permission = await Permissions.RequestAsync<TPermission>();
-        Console.WriteLine($"Requested Permission '{typeof(TPermission).Name}' Status: {permissionStatus}");
-
-        if (permission == PermissionStatus.Granted)
+        if (DeviceInfo.Current.Platform == DevicePlatform.iOS)
         {
-            return;
-        }
-
-        throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
-
-#else
-        if (typeof(TPermission) == typeof(Permissions.LocationAlways))
-        {
-            #region Special case region for 'LocationAlways' permission request
-
-            // Required to initially request the 'LocationWhenInUse' permission to get the 'LocationAlways' iOS query Dialog immediately.
-            // Otherwise when omitted, the iOS OS shows the 'LocationAlways' query dialog anytime.
-            // See SO comment on that post: https://stackoverflow.com/q/68893241
-            PermissionStatus locWhenInUsePerm =
-                await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            Console.WriteLine($"Check  Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
-
-            if (locWhenInUsePerm != PermissionStatus.Granted)
+            if (typeof(TPermission) == typeof(Permissions.LocationAlways))
             {
-                locWhenInUsePerm = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                Console.WriteLine($"Requested Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
+                #region Special case region for 'LocationAlways' permission request
+
+                // Required to initially request the 'LocationWhenInUse' permission to get the 'LocationAlways' iOS query Dialog immediately.
+                // Otherwise when omitted, the iOS OS shows the 'LocationAlways' query dialog anytime.
+                // See SO comment on that post: https://stackoverflow.com/q/68893241
+                PermissionStatus locWhenInUsePerm =
+                    await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+                Console.WriteLine($"Check  Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
+
+                if (locWhenInUsePerm != PermissionStatus.Granted)
+                {
+                    locWhenInUsePerm = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+                    Console.WriteLine($"Requested Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
+                }
+
+                #endregion
             }
 
-            #endregion
+            PermissionStatus permissionStatus = await Permissions.CheckStatusAsync<TPermission>();
+            Console.WriteLine($"Check  Permission '{typeof(TPermission).Name} Status: {permissionStatus}");
+
+            if (permissionStatus == PermissionStatus.Granted)
+            {
+                return;
+            }
+
+            permissionStatus = await Permissions.RequestAsync<TPermission>();
+            Console.WriteLine($"Requested Permission '{typeof(TPermission).Name}' Status: {permissionStatus}");
+
+
+            if (permissionStatus == PermissionStatus.Granted)
+            {
+                return;
+            }
+
+            throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
         }
 
-        PermissionStatus permissionStatus = await Permissions.CheckStatusAsync<TPermission>();
-        Console.WriteLine($"Check  Permission '{typeof(TPermission).Name} Status: {permissionStatus}");
-
-        if (permissionStatus == PermissionStatus.Granted)
-        {
-            return;
-        }
-
-        permissionStatus = await Permissions.RequestAsync<TPermission>();
-        Console.WriteLine($"Requested Permission '{typeof(TPermission).Name}' Status: {permissionStatus}");
-
-
-        if (permissionStatus == PermissionStatus.Granted)
-        {
-            return;
-        }
-
-        throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
-
-#endif
+        throw new NotImplementedException($"Platform: {DeviceInfo.Current.Platform} not supported");
     }
     private async Task<bool> CheckGeolocationPermission()
     {
