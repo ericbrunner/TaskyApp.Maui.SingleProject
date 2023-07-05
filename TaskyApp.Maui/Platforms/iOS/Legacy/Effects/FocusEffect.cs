@@ -32,6 +32,8 @@ public class FocusEffect : PlatformEffect
 
     protected override void OnElementPropertyChanged(PropertyChangedEventArgs args)
     {
+        WriteLine($"EFFECT: {nameof(FocusEffect)}.{nameof(OnElementPropertyChanged)} invoked.");
+        
         base.OnElementPropertyChanged(args);
 
         try

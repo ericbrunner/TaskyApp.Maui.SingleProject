@@ -32,5 +32,10 @@ namespace TaskyApp.Maui.SingleProject.Views
 
             myButton.BackgroundColor = Equals(myButton.BackgroundColor, Colors.LightBlue) ? default : Colors.LightBlue;
         }
+
+        private void OnOpenWindowClicked(object? sender, EventArgs e)
+        {
+            Application.Current.OpenWindow(new Window(new MainPage()));
+        }
     }
 }
