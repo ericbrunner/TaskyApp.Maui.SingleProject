@@ -1,9 +1,8 @@
-﻿
-using Android.Content;
+﻿using Android.Content;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.Platform;
 
-namespace TaskyApp.Droid.CustomRenderer;
+namespace TaskyApp.Maui.SingleProject.Platforms.Android.Legacy.CustomRenderers;
 
 public class MyEntryRenderer : EntryRenderer
 {

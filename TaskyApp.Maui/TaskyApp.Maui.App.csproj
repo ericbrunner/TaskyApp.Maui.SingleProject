@@ -74,10 +74,10 @@
 
 	<ItemGroup>
 	  <Folder Include="CustomControls\" />
-	  <Folder Include="Platforms\Android\CustomRenderers\" />
+	  <Folder Include="Effects\" />
 	  <Folder Include="Platforms\Android\Handler\" />
-	  <Folder Include="Platforms\iOS\CustomRenderers\" />
 	  <Folder Include="Platforms\iOS\Handler\" />
+	  <Folder Include="Platforms\iOS\Legacy\Effects\" />
 	  <Folder Include="Platforms\Windows\Tasky\" />
 	</ItemGroup>
 

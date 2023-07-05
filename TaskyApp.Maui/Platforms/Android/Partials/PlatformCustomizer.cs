@@ -1,5 +1,6 @@
 ﻿using TaskyApp.Maui.SingleProject.CustomControls;
 
+
 namespace TaskyApp.Maui.SingleProject.Partials;
 
 public partial class PlatformCustomizer
@@ -11,13 +12,13 @@ public partial class PlatformCustomizer
         // uncomment to use the old xamarin.forms renderer: 'MyEntryRenderer'
         //mauiHandlerCollection.AddCompatibilityRenderer(
         //    typeof(MyEntry),
-        //    typeof(TaskyApp.Droid.CustomRenderer.MyEntryRenderer));
+        //    typeof(Platforms.Android.Legacy.MyEntryRenderer));
 
         // comment to use the old xamarin.forms renderer: 'MyEntryRenderer'
         //mauiHandlerCollection.AddHandler(
         //    typeof(MyEntry),
         //    typeof(Platforms.Android.Handler.MyEntryHandler));
-        
+
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("MyEntryCustomization", (handler, entry) =>
         {
             if (entry is not MyEntry) return;
@@ -36,5 +37,10 @@ public partial class PlatformCustomizer
             typeof(Platforms.Android.Handler.MyButtonHandler));
 
         #endregion
+    }
+
+    static partial void HandleEffects(IEffectsBuilder? effectsBuilder)
+    {
+        effectsBuilder?.Add<Effects.FocusEffect, Platforms.Android.Legacy.Effects.FocusEffect>();
     }
 }

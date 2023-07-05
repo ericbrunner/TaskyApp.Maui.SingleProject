@@ -2,7 +2,7 @@
 using Microsoft.Maui.Controls.Platform;
 using UIKit;
 
-namespace TaskyApp.iOS.CustomRenderer;
+namespace TaskyApp.Maui.SingleProject.Platforms.iOS.Legacy.CustomRenderers;
 
 public class MyEntryRenderer : EntryRenderer
 {

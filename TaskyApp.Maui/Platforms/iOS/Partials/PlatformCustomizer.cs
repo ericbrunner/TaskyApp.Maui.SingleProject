@@ -11,7 +11,7 @@ public partial class PlatformCustomizer
         // uncomment to use the old xamarin.forms renderer: 'MyEntryRenderer'
         //mauiHandlerCollection?.AddCompatibilityRenderer(
         //    typeof(MyEntry),
-        //    typeof(TaskyApp.iOS.CustomRenderer.MyEntryRenderer));
+        //    typeof(Platforms.iOS.Legacy.CustomRenderers.MyEntryRenderer));
 
         // comment to use the old xamarin.forms renderer: 'MyEntryRenderer'
         //mauiHandlerCollection?.AddHandler(
@@ -38,5 +38,11 @@ public partial class PlatformCustomizer
             typeof(Platforms.iOS.Handler.MyButtonHandler));
 
         #endregion
+    }
+
+
+    static partial void HandleEffects(IEffectsBuilder? effectsBuilder)
+    {
+        effectsBuilder?.Add<Effects.FocusEffect, Platforms.iOS.Legacy.Effects.FocusEffect>();
     }
 }

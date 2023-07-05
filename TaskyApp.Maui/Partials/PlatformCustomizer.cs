@@ -10,4 +10,12 @@ public partial class PlatformCustomizer
     {
         Handle(mauiHandlerCollection);
     }
+
+
+    static partial void HandleEffects(IEffectsBuilder? effectsBuilder = null);
+
+    public static void RegisterEffects(IEffectsBuilder? effectsBuilder = null)
+    {
+        HandleEffects(effectsBuilder);
+    }
 }
