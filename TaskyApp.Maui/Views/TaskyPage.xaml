@@ -6,6 +6,7 @@
              xmlns:contracts="clr-namespace:TaskyApp.Contracts;assembly=TaskyApp.Contracts"
              xmlns:customControls="clr-namespace:TaskyApp.Maui.SingleProject.CustomControls"
              xmlns:effects="clr-namespace:TaskyApp.Maui.SingleProject.Effects"
+             xmlns:behaviors="using:TaskyApp.Maui.SingleProject.Behaviors"
              Title="{Binding Title}"
              x:DataType="contracts:ITaskyViewModel">
 
@@ -81,6 +82,11 @@
 
                 <Button Text="Open 2nd Window" Clicked="OnOpenWindowClicked"></Button>
 
+                <Entry Text="Enter a System.Double value">
+                    <Entry.Behaviors>
+                        <behaviors:NumericValidationBehavior/>
+                    </Entry.Behaviors>
+                </Entry>
             </StackLayout>
         </ScrollView>
     </Grid>
