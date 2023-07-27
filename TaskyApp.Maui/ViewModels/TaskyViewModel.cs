@@ -31,6 +31,10 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
         StartGpsServiceCommand = new AsyncCommand(StartGpsService);
         StopGpsServiceCommand = new Microsoft.Maui.Controls.Command(StopGpsService);
+
+        LongPressCommandParam = "some command param";
+        LongPressCommand = new Microsoft.Maui.Controls.Command<string>(LongPressCommandAction);
+
     }
 
     #region Get Todos
@@ -395,5 +399,41 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
         }
     }
 
+    #endregion
+
+
+    #region LongPress and Press
+
+    private void LongPressCommandAction(string? commandParameter)
+    {
+        System.Diagnostics.Debug.WriteLine($"{nameof(LongPressCommandAction)} invoked with {nameof(commandParameter)}: {commandParameter}");
+    }
+
+    private ICommand _longPressCommand;
+
+    public ICommand LongPressCommand
+    {
+        get => _longPressCommand;
+        private set
+        {
+            if (value == _longPressCommand) return;
+
+            _longPressCommand = value;
+            OnPropertyChanged(nameof(LongPressCommand));
+        }
+    }
+
+    private string _longPressCommandParam;
+
+    public string LongPressCommandParam
+    {
+        get => _longPressCommandParam;
+        private set
+        {
+            if (value == _longPressCommandParam) return;
+            _longPressCommandParam = value;
+            OnPropertyChanged(nameof(LongPressCommandParam));
+        }
+    }
     #endregion
 }

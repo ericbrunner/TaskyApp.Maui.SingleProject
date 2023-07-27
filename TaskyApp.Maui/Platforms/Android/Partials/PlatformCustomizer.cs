@@ -1,5 +1,6 @@
-﻿using TaskyApp.Maui.SingleProject.CustomControls;
-
+﻿using Microsoft.Maui.Controls.Compatibility.Hosting;
+using TaskyApp.Maui.SingleProject.CustomControls;
+using TaskyApp.Maui.SingleProject.Platforms.Android.Legacy.CustomRenderers;
 
 namespace TaskyApp.Maui.SingleProject.Partials;
 
@@ -37,6 +38,10 @@ public partial class PlatformCustomizer
             typeof(Platforms.Android.Handler.MyButtonHandler));
 
         #endregion
+
+        mauiHandlerCollection?.AddHandler(
+            typeof(PressableView), 
+            typeof(PressableViewRenderer));
     }
 
     static partial void HandleEffects(IEffectsBuilder? effectsBuilder)

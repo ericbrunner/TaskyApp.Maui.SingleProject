@@ -1,4 +1,5 @@
-﻿using TaskyApp.Contracts;
+﻿using System.Windows.Input;
+using TaskyApp.Contracts;
 using TaskyApp.Maui.SingleProject.CustomControls;
 
 namespace TaskyApp.Maui.SingleProject.Views
@@ -37,5 +38,20 @@ namespace TaskyApp.Maui.SingleProject.Views
         {
             Application.Current.OpenWindow(new Window(new MainPage()));
         }
+
+
+        #region LongPress and Press Exploration
+
+        void PressableView_OnPressed(object sender, System.EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{nameof(MainPage)}.{nameof(PressableView_OnPressed)} invoked");
+        }
+
+
+        private void PressableView_OnLongPressed(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine($"{nameof(MainPage)}.{nameof(PressableView_OnLongPressed)} invoked");
+        }
+        #endregion
     }
 }

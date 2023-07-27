@@ -13,4 +13,6 @@ public interface ITaskyViewModel : IBaseViewModel
     ICommand StopWorkerCommand { get; }
     ICommand StartTaskCommand { get; }
     ICommand StopTaskCommand { get; }
+    ICommand LongPressCommand { get; }
+    string LongPressCommandParam { get; }
 }

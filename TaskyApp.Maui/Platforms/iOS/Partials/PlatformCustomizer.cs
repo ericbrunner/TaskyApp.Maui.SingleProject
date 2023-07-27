@@ -1,4 +1,6 @@
-﻿using TaskyApp.Maui.SingleProject.CustomControls;
+﻿using Microsoft.Maui.Controls.Compatibility.Hosting;
+using TaskyApp.Maui.SingleProject.CustomControls;
+using TaskyApp.Maui.SingleProject.Platforms.iOS.Legacy.CustomRenderers;
 
 namespace TaskyApp.Maui.SingleProject.Partials;
 
@@ -38,6 +40,10 @@ public partial class PlatformCustomizer
             typeof(Platforms.iOS.Handler.MyButtonHandler));
 
         #endregion
+
+        mauiHandlerCollection?.AddHandler(
+            typeof(PressableView),
+            typeof(PressableViewRenderer));
     }
 
 
