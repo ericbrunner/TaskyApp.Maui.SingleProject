@@ -5,21 +5,19 @@ using TaskyApp.Maui.SingleProject.CustomControls;
 
 namespace TaskyApp.Maui.SingleProject.Platforms.Android.Legacy.CustomRenderers;
 
-public class PressableViewRenderer : VisualElementRenderer<PressableView>
+public sealed class PressableViewRenderer : VisualElementRenderer<PressableView>
 {
     public PressableViewRenderer(Context context) : base(context)
     {
         Touch += Control_Touch;
     }
 
-    private bool isLongPressRaised = false;
+    private bool _isLongPressRaised;
     private CancellationTokenSource? _cts;
 
-    private async void Control_Touch(object sender, TouchEventArgs e)
+    private async void Control_Touch(object? sender, TouchEventArgs e)
     {
-        if (Element == null) return;
-
-        System.Diagnostics.Debug.WriteLine($"Control_Touch occured - e: {e.Handled}, {e.Event?.Action}");
+        if (Element == null || e.Event == null) return;
 
 
         switch (e.Event.Action)
@@ -33,12 +31,12 @@ public class PressableViewRenderer : VisualElementRenderer<PressableView>
                     await Task.Delay(Element.LongPressDuration, _cts.Token);
 
                     Element.RaiseLongPressed();
-                    isLongPressRaised = true;
+                    _isLongPressRaised = true;
                 }
-                catch (Exception exception)
+                catch (TaskCanceledException)
                 {
-                    isLongPressRaised = false;
-                    System.Diagnostics.Debug.WriteLine(exception);
+                    _isLongPressRaised = false;
+                    System.Diagnostics.Debug.WriteLine("LongPressed successfully suppressed");
                 }
 
                 break;
@@ -47,19 +45,53 @@ public class PressableViewRenderer : VisualElementRenderer<PressableView>
 
                 _cts?.Cancel();
 
-                if (!isLongPressRaised)
+                if (!_isLongPressRaised)
                 {
                     Element.RaisePressed();
                 }
                 else
                 {
-                    isLongPressRaised = false;
+                    _isLongPressRaised = false;
                 }
 
                 break;
 
-            default:
+            case MotionEventActions.ButtonPress:
                 break;
+            case MotionEventActions.ButtonRelease:
+                break;
+            case MotionEventActions.Cancel:
+                break;
+            case MotionEventActions.HoverEnter:
+                break;
+            case MotionEventActions.HoverExit:
+                break;
+            case MotionEventActions.HoverMove:
+                break;
+            case MotionEventActions.Mask:
+                break;
+            case MotionEventActions.Move:
+                break;
+            case MotionEventActions.Outside:
+                break;
+            case MotionEventActions.Pointer1Down:
+                break;
+            case MotionEventActions.Pointer1Up:
+                break;
+            case MotionEventActions.Pointer2Down:
+                break;
+            case MotionEventActions.Pointer2Up:
+                break;
+            case MotionEventActions.Pointer3Down:
+                break;
+            case MotionEventActions.Pointer3Up:
+                break;
+            case MotionEventActions.PointerIdMask:
+                break;
+            case MotionEventActions.PointerIdShift:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }

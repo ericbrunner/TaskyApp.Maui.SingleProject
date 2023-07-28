@@ -74,7 +74,7 @@
 
                 <Entry Text="Focus Effect on Enter">
                     <Entry.Effects>
-                        <effects:FocusEffect/>
+                        <effects:FocusEffect />
                     </Entry.Effects>
                 </Entry>
 
@@ -84,20 +84,25 @@
 
                 <Entry Text="Enter a System.Double value">
                     <Entry.Behaviors>
-                        <behaviors:NumericValidationBehavior/>
+                        <behaviors:NumericValidationBehavior />
                     </Entry.Behaviors>
                 </Entry>
 
                 <customControls:PressableView HorizontalOptions="Fill"
-                                        VerticalOptions="Fill"
-HeightRequest="50" BackgroundColor="Red"
-                                        Pressed="PressableView_OnPressed"
-                               
-                                        LongPressed="PressableView_OnLongPressed"
-                                        LongPressCommand="{Binding LongPressCommand}" 
-                                        LongPressCommandParameter="{Binding LongPressCommandParam}">
+                                              VerticalOptions="Fill"
+                                              HeightRequest="50" 
+                                              BackgroundColor="Red"
+                                              
+                                              Pressed="PressableView_OnPressed"
+                                              PressedCommand="{Binding PressedCommand}"
+                                              PressedCommandParameter="{Binding PressedCommandParameter}"
 
-                    <Label Text="Press Me" TextColor="White" FontSize="24" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                                              LongPressed="PressableView_OnLongPressed"
+                                              LongPressCommand="{Binding LongPressCommand}"
+                                              LongPressCommandParameter="{Binding LongPressCommandParam}">
+
+                    <Label Text="Press Me" TextColor="White" FontSize="24" HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center" />
                 </customControls:PressableView>
 
 

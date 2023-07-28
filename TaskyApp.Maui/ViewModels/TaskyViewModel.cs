@@ -2,10 +2,12 @@
 using MvvmHelpers.Interfaces;
 using System.Diagnostics;
 using System.Windows.Input;
+using CommunityToolkit.Maui.Alerts;
 using TaskyApp.Contracts;
 using TaskyApp.Maui.SingleProject;
 using TaskyApp.Models;
 using TaskyApp.Tasky.Messages;
+using Microsoft.Maui.Dispatching;
 
 namespace TaskyApp.ViewModels;
 
@@ -32,9 +34,20 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
         StartGpsServiceCommand = new AsyncCommand(StartGpsService);
         StopGpsServiceCommand = new Microsoft.Maui.Controls.Command(StopGpsService);
 
-        LongPressCommandParam = "some command param";
+        LongPressCommandParam = "some command param for long-pressed command";
         LongPressCommand = new Microsoft.Maui.Controls.Command<string>(LongPressCommandAction);
 
+        PressedCommandParameter = "some command param for pressed command";
+        PressedCommand = new Microsoft.Maui.Controls.Command<string>(PressedCommandAction);
+    }
+
+    private async void PressedCommandAction(string commandParameter)
+    {
+        var message = $"{nameof(PressedCommandAction)} invoked with {nameof(commandParameter)}: {commandParameter}";
+        Debug.WriteLine(message);
+
+        if (Application.Current?.MainPage == null) return;
+        await Application.Current.MainPage.DisplayAlert("Pressed", message, "OK");
     }
 
     #region Get Todos
@@ -49,6 +62,7 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
         {
             Debug.Write($"{DateTime.Now:O}-{nameof(TaskyViewModel)}.{nameof(FetchTodos)} {nameof(todoRepo)} is null.");
         }
+
         var result = await todoRepo.GetItemsAsync();
 
         Debug.WriteLine(
@@ -126,7 +140,8 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
             if (Permissions.ShouldShowRationale<TPermission>())
             {
-                throw new PermissionException($"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
+                throw new PermissionException(
+                    $"{typeof(TPermission).Name} permission was not granted: {permissionStatus}");
             }
 
             // Permissions.LocationAlways: Is required to get GPS coords when app is in background
@@ -152,12 +167,14 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
                 // See SO comment on that post: https://stackoverflow.com/q/68893241
                 PermissionStatus locWhenInUsePerm =
                     await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-                Console.WriteLine($"Check  Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
+                Console.WriteLine(
+                    $"Check  Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
 
                 if (locWhenInUsePerm != PermissionStatus.Granted)
                 {
                     locWhenInUsePerm = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-                    Console.WriteLine($"Requested Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
+                    Console.WriteLine(
+                        $"Requested Permission '{nameof(Permissions.LocationWhenInUse)}' Status: {locWhenInUsePerm}");
                 }
 
                 #endregion
@@ -208,6 +225,7 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
         throw new NotImplementedException($"Platform: {DeviceInfo.Current.Platform} not supported");
     }
+
     private async Task<bool> CheckGeolocationPermission()
     {
         try
@@ -293,7 +311,8 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
         var location = await Geolocation.GetLocationAsync(request, cancellationToken);
 
         var gpsPositon = location != null ? $"with {location.Latitude}/{location.Longitude} lat/lon" : string.Empty;
-        System.Diagnostics.Debug.WriteLine($"{DateTime.Now:O}-{nameof(DoWork)} invoked {++_workerIndex} times {gpsPositon}");
+        System.Diagnostics.Debug.WriteLine(
+            $"{DateTime.Now:O}-{nameof(DoWork)} invoked {++_workerIndex} times {gpsPositon}");
 
         //2nd workload: fetch some todos form a REST Api endpoint
         await FetchTodos();
@@ -404,36 +423,46 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
     #region LongPress and Press
 
-    private void LongPressCommandAction(string? commandParameter)
+    private async void LongPressCommandAction(string? commandParameter)
     {
-        System.Diagnostics.Debug.WriteLine($"{nameof(LongPressCommandAction)} invoked with {nameof(commandParameter)}: {commandParameter}");
+        var message = $"{nameof(LongPressCommandAction)} invoked with {nameof(commandParameter)}: {commandParameter}";
+        Debug.WriteLine(message);
+
+        if (Application.Current?.MainPage == null) return;
+        await Application.Current.MainPage.DisplayAlert("LongPress", message, "OK");
     }
 
-    private ICommand _longPressCommand;
+    private readonly ICommand? _longPressCommand;
 
-    public ICommand LongPressCommand
+    public ICommand? LongPressCommand
     {
         get => _longPressCommand;
-        private set
-        {
-            if (value == _longPressCommand) return;
-
-            _longPressCommand = value;
-            OnPropertyChanged(nameof(LongPressCommand));
-        }
+        private init => SetProperty(ref _longPressCommand, value);
     }
 
-    private string _longPressCommandParam;
+    private readonly string _longPressCommandParam;
 
     public string LongPressCommandParam
     {
         get => _longPressCommandParam;
-        private set
-        {
-            if (value == _longPressCommandParam) return;
-            _longPressCommandParam = value;
-            OnPropertyChanged(nameof(LongPressCommandParam));
-        }
+        private init => SetProperty(ref _longPressCommandParam, value);
     }
+
+    private readonly ICommand? _pressedCommand;
+
+    public ICommand? PressedCommand
+    {
+        get => _pressedCommand;
+        private init => SetProperty(ref _pressedCommand, value);
+    }
+
+    private readonly string _pressedCommandParameter;
+
+    public string PressedCommandParameter
+    {
+        get => _pressedCommandParameter;
+        private init => SetProperty(ref _pressedCommandParameter, value);
+    }
+
     #endregion
 }

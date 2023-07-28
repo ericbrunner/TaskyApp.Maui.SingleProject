@@ -6,22 +6,20 @@ using UIKit;
 
 namespace TaskyApp.Maui.SingleProject.Platforms.iOS.Legacy.CustomRenderers;
 
-public class PressableViewRenderer : VisualElementRenderer<PressableView>
+public sealed class PressableViewRenderer : VisualElementRenderer<PressableView>
 {
     public PressableViewRenderer()
     {
         UserInteractionEnabled = true;
     }
 
-    private bool isLongPressRaised = false;
+    private bool _isLongPressRaised;
     private CancellationTokenSource? _cts;
-    public override async void TouchesBegan(NSSet touches, UIEvent evt)
+    public override async void TouchesBegan(NSSet touches, UIEvent? evt)
     {
         base.TouchesBegan(touches, evt);
 
         if (Element == null) return;
-
-        System.Diagnostics.Debug.WriteLine($"{nameof(TouchesBegan)} occured - e: {evt.Type}");
 
         try
         {
@@ -30,41 +28,31 @@ public class PressableViewRenderer : VisualElementRenderer<PressableView>
             await Task.Delay(Element.LongPressDuration, _cts.Token);
 
             Element.RaiseLongPressed();
-            isLongPressRaised = true;
+            _isLongPressRaised = true;
         }
-        catch (Exception exception)
+        catch (TaskCanceledException)
         {
-            isLongPressRaised = false;
-            System.Diagnostics.Debug.WriteLine(exception);
+            _isLongPressRaised = false;
+            System.Diagnostics.Debug.WriteLine($"LongPressed successfully suppressed");
         }
     }
 
-    public override void TouchesCancelled(NSSet touches, UIEvent evt)
-    {
-        base.TouchesCancelled(touches, evt);
 
-        //
-
-        System.Diagnostics.Debug.WriteLine($"{nameof(TouchesCancelled)} occured - e: {evt.Type}");
-    }
-
-    public override void TouchesEnded(NSSet touches, UIEvent evt)
+    public override void TouchesEnded(NSSet touches, UIEvent? evt)
     {
         base.TouchesEnded(touches, evt);
 
         if (Element == null) return;
 
-        System.Diagnostics.Debug.WriteLine($"{nameof(TouchesEnded)} occured - e: {evt.Type}");
-
         _cts?.Cancel();
 
-        if (!isLongPressRaised)
+        if (!_isLongPressRaised)
         {
             Element.RaisePressed();
         }
         else
         {
-            isLongPressRaised = false;
+            _isLongPressRaised = false;
         }
     }
 }

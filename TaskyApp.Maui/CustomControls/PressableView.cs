@@ -4,21 +4,47 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
 {
     public class PressableView : ContentView
     {
-        public event EventHandler Pressed;
-        public void RaisePressed() => Pressed?.Invoke(this, EventArgs.Empty);
+        public event EventHandler? Pressed;
+        public void RaisePressed()
+        {
+            Pressed?.Invoke(this, EventArgs.Empty);
+            PressedCommand?.Execute(PressedCommandParameter);
+        }
+
+        public static readonly BindableProperty PressedCommandProperty = BindableProperty.Create(
+            nameof(PressedCommand),
+            typeof(ICommand),
+            typeof(PressableView));
+
+        public ICommand PressedCommand
+        {
+            get => (ICommand)GetValue(PressedCommandProperty); 
+            set => SetValue(PressedCommandProperty, value);
+        }
+
+
+        public static readonly BindableProperty PressedCommandParameterProperty = BindableProperty.Create(
+            nameof(PressedCommandParameter), 
+            typeof(object), 
+            typeof(PressableView));
+
+        public object? PressedCommandParameter
+        {
+            get => (object?)GetValue(PressedCommandParameterProperty);
+            set => SetValue(PressedCommandParameterProperty, value);
+        }
 
 
         #region LongPress related
 
-        public event EventHandler LongPressed;
+        public event EventHandler? LongPressed;
 
         public static readonly BindableProperty LongPressCommandProperty = BindableProperty.Create(
             nameof(LongPressCommand),
             typeof(ICommand),
-            typeof(PressableView),
-            null);
+            typeof(PressableView));
 
-        public ICommand LongPressCommand
+        public ICommand? LongPressCommand
         {
             get => (ICommand)GetValue(LongPressCommandProperty);
             set => SetValue(LongPressCommandProperty, value);
@@ -27,8 +53,7 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
         public static readonly BindableProperty LongPressCommandParameterProperty = BindableProperty.Create(
             nameof(LongPressCommandParameter),
             typeof(object),
-            typeof(PressableView),
-            null);
+            typeof(PressableView));
 
         public object? LongPressCommandParameter
         {
@@ -40,7 +65,8 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
             nameof(LongPressDuration),
             typeof(int),
             typeof(PressableView),
-            defaultValue:2000);
+            defaultValue:500);
+
 
         public int LongPressDuration
         {
