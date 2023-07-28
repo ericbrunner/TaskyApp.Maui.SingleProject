@@ -40,8 +40,8 @@ public partial class PlatformCustomizer
         #endregion
 
         mauiHandlerCollection?.AddHandler(
-            typeof(PressableView), 
-            typeof(PressableViewRenderer));
+            typeof(PressableGrid), 
+            typeof(PressableGridRenderer));
     }
 
     static partial void HandleEffects(IEffectsBuilder? effectsBuilder)

@@ -88,22 +88,22 @@
                     </Entry.Behaviors>
                 </Entry>
 
-                <customControls:PressableView HorizontalOptions="Fill"
+                <customControls:PressableGrid HorizontalOptions="Fill"
                                               VerticalOptions="Fill"
                                               HeightRequest="50" 
                                               BackgroundColor="Red"
                                               
-                                              Pressed="PressableView_OnPressed"
+                                              Pressed="PressableGrid_OnPressed"
                                               PressedCommand="{Binding PressedCommand}"
                                               PressedCommandParameter="{Binding PressedCommandParameter}"
 
-                                              LongPressed="PressableView_OnLongPressed"
+                                              LongPressed="PressableGrid_OnLongPressed"
                                               LongPressCommand="{Binding LongPressCommand}"
                                               LongPressCommandParameter="{Binding LongPressCommandParam}">
 
                     <Label Text="Press Me" TextColor="White" FontSize="24" HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center" />
-                </customControls:PressableView>
+                </customControls:PressableGrid>
 
 
             </StackLayout>

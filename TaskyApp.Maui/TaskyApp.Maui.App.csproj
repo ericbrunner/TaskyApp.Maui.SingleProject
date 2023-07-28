@@ -73,7 +73,6 @@
 
 
 	<ItemGroup>
-	  <Folder Include="CustomControls\" />
 	  <Folder Include="Effects\" />
 	  <Folder Include="Behaviors\" />
 	  <Folder Include="Platforms\Android\Handler\" />

@@ -42,15 +42,15 @@ namespace TaskyApp.Maui.SingleProject.Views
 
         #region LongPress and Press Exploration
 
-        void PressableView_OnPressed(object sender, System.EventArgs e)
+        void PressableGrid_OnPressed(object sender, System.EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"{nameof(MainPage)}.{nameof(PressableView_OnPressed)} invoked");
+            System.Diagnostics.Debug.WriteLine($"{nameof(MainPage)}.{nameof(PressableGrid_OnPressed)} invoked");
         }
 
 
-        private void PressableView_OnLongPressed(object sender, EventArgs e)
+        private void PressableGrid_OnLongPressed(object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"{nameof(MainPage)}.{nameof(PressableView_OnLongPressed)} invoked");
+            System.Diagnostics.Debug.WriteLine($"{nameof(MainPage)}.{nameof(PressableGrid_OnLongPressed)} invoked");
         }
         #endregion
     }

@@ -6,9 +6,9 @@ using UIKit;
 
 namespace TaskyApp.Maui.SingleProject.Platforms.iOS.Legacy.CustomRenderers;
 
-public sealed class PressableViewRenderer : VisualElementRenderer<PressableView>
+public sealed class PressableGridRenderer : VisualElementRenderer<PressableGrid>
 {
-    public PressableViewRenderer()
+    public PressableGridRenderer()
     {
         UserInteractionEnabled = true;
     }

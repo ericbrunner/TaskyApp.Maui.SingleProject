@@ -5,9 +5,9 @@ using TaskyApp.Maui.SingleProject.CustomControls;
 
 namespace TaskyApp.Maui.SingleProject.Platforms.Android.Legacy.CustomRenderers;
 
-public sealed class PressableViewRenderer : VisualElementRenderer<PressableView>
+public sealed class PressableGridRenderer : VisualElementRenderer<PressableGrid>
 {
-    public PressableViewRenderer(Context context) : base(context)
+    public PressableGridRenderer(Context context) : base(context)
     {
         Touch += Control_Touch;
     }

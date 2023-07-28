@@ -2,7 +2,7 @@
 
 namespace TaskyApp.Maui.SingleProject.CustomControls
 {
-    public class PressableView : ContentView
+    public class PressableGrid : Grid
     {
         public event EventHandler? Pressed;
         public void RaisePressed()
@@ -14,7 +14,7 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
         public static readonly BindableProperty PressedCommandProperty = BindableProperty.Create(
             nameof(PressedCommand),
             typeof(ICommand),
-            typeof(PressableView));
+            typeof(PressableGrid));
 
         public ICommand PressedCommand
         {
@@ -26,7 +26,7 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
         public static readonly BindableProperty PressedCommandParameterProperty = BindableProperty.Create(
             nameof(PressedCommandParameter), 
             typeof(object), 
-            typeof(PressableView));
+            typeof(PressableGrid));
 
         public object? PressedCommandParameter
         {
@@ -42,7 +42,7 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
         public static readonly BindableProperty LongPressCommandProperty = BindableProperty.Create(
             nameof(LongPressCommand),
             typeof(ICommand),
-            typeof(PressableView));
+            typeof(PressableGrid));
 
         public ICommand? LongPressCommand
         {
@@ -53,7 +53,7 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
         public static readonly BindableProperty LongPressCommandParameterProperty = BindableProperty.Create(
             nameof(LongPressCommandParameter),
             typeof(object),
-            typeof(PressableView));
+            typeof(PressableGrid));
 
         public object? LongPressCommandParameter
         {
@@ -64,7 +64,7 @@ namespace TaskyApp.Maui.SingleProject.CustomControls
         public static readonly BindableProperty LongPressDurationProperty = BindableProperty.Create(
             nameof(LongPressDuration),
             typeof(int),
-            typeof(PressableView),
+            typeof(PressableGrid),
             defaultValue:500);
 
 
