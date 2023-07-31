@@ -41,8 +41,7 @@ namespace TaskyApp.Maui.SingleProject.Views
             _cameraView.BarcodeDetected += CameraView_BarcodeDetected;
             _cameraView.BarCodeOptions = new BarcodeDecodeOptions
             {
-                PossibleFormats = { ZXing.BarcodeFormat.All_1D, ZXing.BarcodeFormat.QR_CODE },
-                TryHarder = true
+                PossibleFormats = { ZXing.BarcodeFormat.All_1D, ZXing.BarcodeFormat.QR_CODE }
             };
 
             _cameraView.BarCodeDetectionEnabled = true;
