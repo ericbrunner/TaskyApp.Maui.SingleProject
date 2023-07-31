@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Maui;
+﻿using Camera.MAUI;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using TaskyApp.Contracts;
@@ -19,6 +20,7 @@ public static class MauiProgram
             .UseMauiCompatibility()
             .UseMauiCommunityToolkit()
             .UseMauiApp(serviceProvider => new App(serviceProvider))
+            .UseMauiCameraView()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
