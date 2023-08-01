@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maui="clr-namespace:Camera.MAUI;assembly=Camera.MAUI"
+             xmlns:customControls="clr-namespace:TaskyApp.Maui.SingleProject.CustomControls"
+             x:Class="TaskyApp.Maui.SingleProject.CustomControls.ScannerPage"
+             x:DataType="customControls:ScannerPage">
+    <Grid RowDefinitions="*,*,*" RowSpacing="0">
+
+        <Label Grid.Row="0"
+               Text="{Binding TopText}" 
+               TextColor="White" 
+               BackgroundColor="Black"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill"
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"/>
+
+        <maui:CameraView x:Name="CameraView" 
+                         Grid.Row="1" 
+                         MinimumWidthRequest="300"
+                         MinimumHeightRequest="200"
+                          />
+        
+        <BoxView Grid.Row="1" Color="Red" HeightRequest="1" HorizontalOptions="Fill"/>
+
+        <Label Grid.Row="2" 
+               Text="{Binding BottomText}" 
+               TextColor="White" 
+               BackgroundColor="Black" 
+               
+               HorizontalTextAlignment="Center"
+               VerticalTextAlignment="Center"/>
+    </Grid>
+</ContentPage>

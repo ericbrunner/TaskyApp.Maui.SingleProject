@@ -1,4 +1,5 @@
 ﻿using TaskyApp.Contracts;
+using TaskyApp.Maui.SingleProject.Views;
 using TaskyApp.ViewModels;
 
 namespace TaskyApp.Maui.SingleProject;
@@ -15,7 +16,9 @@ public partial class App : Application
             InitializeComponent();
 
             ServiceProvider = serviceProvider;
-            MainPage = new AppShell();
+            //MainPage = new AppShell();
+
+            MainPage = new NavigationPage(new TaskyPage());
         }
 
         protected override Window CreateWindow(IActivationState? activationState)

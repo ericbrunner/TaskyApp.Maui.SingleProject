@@ -3,6 +3,7 @@ using Camera.MAUI;
 using Camera.MAUI.ZXingHelper;
 using TaskyApp.Contracts;
 using TaskyApp.Maui.SingleProject.CustomControls;
+using TaskyApp.Maui.SingleProject.CustomControls.Scanner;
 
 namespace TaskyApp.Maui.SingleProject.Views
 {
@@ -47,6 +48,7 @@ namespace TaskyApp.Maui.SingleProject.Views
             _cameraView.BarCodeDetectionEnabled = true;
 
             RootLayout.Add(_cameraView);
+
             #endregion
         }
 
@@ -108,5 +110,41 @@ namespace TaskyApp.Maui.SingleProject.Views
         }
 
         #endregion
+
+
+        private void OnScanResult(string scannedText)
+        {
+            Debug.WriteLine("BarcodeText=" + scannedText);
+
+            MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await Navigation.PopAsync();
+
+                BarcodeResult2.Text = $"{scannedText}";
+            });
+        }
+
+        private async void Button_OnClicked(object? sender, EventArgs e)
+        {
+            var scannerPage = App.Get<IScannerPage>();
+
+            if (scannerPage == null) return;
+
+            var scannerOptions = new ScannerOptions
+            {
+                AutoRotate = false,
+                PossibleFormats = { ScannerBarcodeFormat.All_1D, ScannerBarcodeFormat.QR_CODE }
+            };
+
+            var overlayOptions = new ScannerOverlayOptions
+            {
+                TopText = "Please scan code",
+                BottomText = "Align the code within the frame"
+            };
+
+            scannerPage.Init(OnScanResult, scannerOptions, overlayOptions);
+
+            await Navigation.PushAsync(scannerPage as Page);
+        }
     }
 }

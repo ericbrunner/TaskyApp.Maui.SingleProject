@@ -3,6 +3,8 @@ using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using TaskyApp.Contracts;
+using TaskyApp.Maui.SingleProject.CustomControls;
+using TaskyApp.Maui.SingleProject.CustomControls.Scanner;
 using TaskyApp.Maui.SingleProject.Partials;
 using TaskyApp.Services;
 using TaskyApp.ViewModels;
@@ -37,6 +39,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ITodoStore, TodosDataStore>();
         builder.Services.AddTransient<ITaskyViewModel, TaskyViewModel>();
+
+        builder.Services.AddSingleton<IScannerPage, ScannerPage>();
 
         return builder.Build();
     }

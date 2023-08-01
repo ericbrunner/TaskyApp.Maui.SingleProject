@@ -84,6 +84,14 @@
 
 
 
+	<ItemGroup>
+	  <Compile Update="CustomControls\Scanner\ScannerPage.xaml.cs">
+	    <DependentUpon>ScannerPage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+
+
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionTaskyAppMauiAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>
