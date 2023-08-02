@@ -1,5 +1,7 @@
+using System.Collections.ObjectModel;
 using MvvmHelpers.Interfaces;
 using System.Windows.Input;
+using TaskyApp.Contracts.Services;
 
 namespace TaskyApp.Contracts;
 
@@ -17,4 +19,6 @@ public interface ITaskyViewModel : IBaseViewModel
     string LongPressCommandParam { get; }
     ICommand PressedCommand { get; }
     string PressedCommandParameter { get; }
+    public ICommand PickImagesCommand { get; }
+    public ObservableCollection<ImageSource> PickedImages { get; set; }
 }

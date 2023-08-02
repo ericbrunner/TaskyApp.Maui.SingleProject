@@ -1,13 +1,12 @@
-﻿using MvvmHelpers.Commands;
+﻿using System.Collections.ObjectModel;
+using MvvmHelpers.Commands;
 using MvvmHelpers.Interfaces;
 using System.Diagnostics;
 using System.Windows.Input;
-using CommunityToolkit.Maui.Alerts;
 using TaskyApp.Contracts;
 using TaskyApp.Maui.SingleProject;
-using TaskyApp.Models;
 using TaskyApp.Tasky.Messages;
-using Microsoft.Maui.Dispatching;
+using TaskyApp.Contracts.Services;
 
 namespace TaskyApp.ViewModels;
 
@@ -20,6 +19,8 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
         Title = "Tasky";
 
         _taskRunner = taskRunner;
+        PickedImages = new ObservableCollection<ImageSource>();
+
 
         GetLocationCommand = new AsyncCommand(GetLocation);
         GetTodosCommand = new AsyncCommand(FetchTodos);
@@ -39,6 +40,71 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
         PressedCommandParameter = "some command param for pressed command";
         PressedCommand = new Microsoft.Maui.Controls.Command<string>(PressedCommandAction);
+
+        PickImagesCommand = new AsyncCommand(PickImagesAction);
+    }
+
+    private Task PickImagesAction()
+    {
+        return MainThread.IsMainThread
+            ? InnerPickImagesAsync()
+            : MainThread.InvokeOnMainThreadAsync(InnerPickImagesAsync);
+    }
+
+
+    private async Task InnerPickImagesAsync()
+    {
+
+        var mediaService = App.Get<IMediaService>();
+
+        if (mediaService == null) return;
+
+        IEnumerable<IImageMediaInfo> imageMediaInfos = await mediaService.PickImages("custom picker title");
+
+        if (!imageMediaInfos.Any()) return;
+
+
+        PickedImages = new ObservableCollection<ImageSource>();
+
+        foreach (var imageMediaInfo in imageMediaInfos)
+        {
+            Debug.WriteLine($"Selected Image - {imageMediaInfo.FileName} ({imageMediaInfo.ContentType}) MainThread.IsMainThread: {MainThread.IsMainThread}");
+
+            var stream = await imageMediaInfo.GetStream();
+            var imageSource = ImageSource.FromStream(() => stream);
+            
+            PickedImages.Add(imageSource);
+        }
+
+        // TODO Image processing
+        
+        
+        //int addedPhotos = 0;
+
+        //foreach (var photo in photos)
+        //{
+        //    if (FotoItems.Count(x => x is not AddFotoItem) < MaxItemCount)
+        //    {
+        //        using Stream photoStream = photo.GetStream();
+        //        await AddPhoto(photoStream);
+        //        addedPhotos++;
+        //    }
+        //    else
+        //    {
+        //        await DialogManager.Show(
+        //            new DialogManager.DialogPage("Limit überschritten",
+        //                $"Die maximale Anzahl von {MaxItemCount} Bildern wurde überschritten." +
+        //                (addedPhotos == 1 ?
+        //                    $" Es wurde nur das erste" :
+        //                    $" Es wurden nur die ersten {addedPhotos}") +
+        //                $" von {photos.Count()} ausgewählten Bildern übernommen.",
+        //                new DialogManager.Btn("Ok")
+        //            )
+        //        );
+        //        break;
+        //    }
+        //}
+
     }
 
     private async void PressedCommandAction(string commandParameter)
@@ -462,6 +528,16 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
     {
         get => _pressedCommandParameter;
         private init => SetProperty(ref _pressedCommandParameter, value);
+    }
+
+    public ICommand PickImagesCommand { get; }
+
+    private ObservableCollection<ImageSource> _pickedImages;
+
+    public ObservableCollection<ImageSource> PickedImages
+    {
+        get => _pickedImages;
+        set => SetProperty(ref _pickedImages, value);
     }
 
     #endregion
