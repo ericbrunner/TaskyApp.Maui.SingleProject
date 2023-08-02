@@ -3,10 +3,13 @@ using MvvmHelpers.Commands;
 using MvvmHelpers.Interfaces;
 using System.Diagnostics;
 using System.Windows.Input;
+using Microsoft.Maui.Graphics.Platform;
 using TaskyApp.Contracts;
 using TaskyApp.Maui.SingleProject;
 using TaskyApp.Tasky.Messages;
 using TaskyApp.Contracts.Services;
+using IImage = Microsoft.Maui.Graphics.IImage;
+using Switch = Microsoft.Maui.Controls.Switch;
 
 namespace TaskyApp.ViewModels;
 
@@ -54,7 +57,6 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
     private async Task InnerPickImagesAsync()
     {
-
         var mediaService = App.Get<IMediaService>();
 
         if (mediaService == null) return;
@@ -68,43 +70,21 @@ public class TaskyViewModel : BaseViewModel, ITaskyViewModel
 
         foreach (var imageMediaInfo in imageMediaInfos)
         {
-            Debug.WriteLine($"Selected Image - {imageMediaInfo.FileName} ({imageMediaInfo.ContentType}) MainThread.IsMainThread: {MainThread.IsMainThread}");
+            Debug.WriteLine(
+                $"Selected Image - {imageMediaInfo.FileName} ({imageMediaInfo.ContentType}) MainThread.IsMainThread: {MainThread.IsMainThread}");
 
-            var stream = await imageMediaInfo.GetStream();
+            // Load from original sized stream
+            //var stream = await imageMediaInfo.GetStream();
+            //var imageSource = ImageSource.FromStream(() => stream);
+
+
+            // Load from downsized stream
+            var stream = await imageMediaInfo.GetDownsizedStream(maxWidthOrHeight: 1024);
             var imageSource = ImageSource.FromStream(() => stream);
             
+
             PickedImages.Add(imageSource);
         }
-
-        // TODO Image processing
-        
-        
-        //int addedPhotos = 0;
-
-        //foreach (var photo in photos)
-        //{
-        //    if (FotoItems.Count(x => x is not AddFotoItem) < MaxItemCount)
-        //    {
-        //        using Stream photoStream = photo.GetStream();
-        //        await AddPhoto(photoStream);
-        //        addedPhotos++;
-        //    }
-        //    else
-        //    {
-        //        await DialogManager.Show(
-        //            new DialogManager.DialogPage("Limit überschritten",
-        //                $"Die maximale Anzahl von {MaxItemCount} Bildern wurde überschritten." +
-        //                (addedPhotos == 1 ?
-        //                    $" Es wurde nur das erste" :
-        //                    $" Es wurden nur die ersten {addedPhotos}") +
-        //                $" von {photos.Count()} ausgewählten Bildern übernommen.",
-        //                new DialogManager.Btn("Ok")
-        //            )
-        //        );
-        //        break;
-        //    }
-        //}
-
     }
 
     private async void PressedCommandAction(string commandParameter)

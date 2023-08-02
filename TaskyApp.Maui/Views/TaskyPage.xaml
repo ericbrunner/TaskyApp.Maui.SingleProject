@@ -26,7 +26,8 @@
                             <Image Source="{Binding .}"
                                    Aspect="AspectFill"
                                    HeightRequest="60"
-                                   WidthRequest="60" />
+                                   WidthRequest="60"  />
+
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

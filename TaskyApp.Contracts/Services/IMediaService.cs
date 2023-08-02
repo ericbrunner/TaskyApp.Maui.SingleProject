@@ -11,4 +11,5 @@ public interface IImageMediaInfo
     string ContentType { get; }
     string FileName { get; }
     string FullPath { get; }
+    Task<Stream> GetDownsizedStream(float maxWidthOrHeight);
 }
