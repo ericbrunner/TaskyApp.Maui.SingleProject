@@ -88,6 +88,23 @@
 	  <Compile Update="CustomControls\Scanner\ScannerPage.xaml.cs">
 	    <DependentUpon>ScannerPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="CustomControls\SignaturePad\SignatureDrawingView.xaml.cs">
+	    <DependentUpon>SignatureDrawingView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\SignaturePage.xaml.cs">
+	    <DependentUpon>SignaturePage.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+
+
+	<ItemGroup>
+	  <MauiXaml Update="CustomControls\SignaturePad\SignatureDrawingView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SignaturePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 

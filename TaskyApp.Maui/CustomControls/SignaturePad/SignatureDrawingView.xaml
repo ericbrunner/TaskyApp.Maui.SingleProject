@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:signaturePad="using:TaskyApp.Maui.SingleProject.CustomControls.SignaturePad"
+             x:Class="TaskyApp.Maui.SingleProject.CustomControls.SignaturePad.SignatureDrawingView"
+             x:DataType="signaturePad:SignatureDrawingView">
+    <Grid>
+        
+        <toolkit:DrawingView x:Name="DrawingPad"
+                             Grid.Column="0"
+                             Grid.Row="0"
+                             LineColor="#212121"
+                             Margin="1"
+                             LineWidth="5"
+                             HorizontalOptions="FillAndExpand"
+                             VerticalOptions="FillAndExpand"
+                             MinimumHeightRequest="150"
+                             IsMultiLineModeEnabled="False"
+                             BackgroundColor="White" />
+
+        <Label Text="{Binding ClearedText}" HorizontalOptions="End" VerticalOptions="Start" Margin="5">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ClearedCommand}"/>
+            </Label.GestureRecognizers>
+        </Label>
+    </Grid>
+</ContentView>

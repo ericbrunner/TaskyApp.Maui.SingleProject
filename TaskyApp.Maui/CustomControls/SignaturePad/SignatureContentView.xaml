@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:time4Service="clr-namespace:time4service"
+             xmlns:signaturePad="using:TaskyApp.Maui.SingleProject.CustomControls.SignaturePad"
+             x:Class="msoft.Time4.SignatureContentView"
+             x:DataType="time4Service:SignatureViewModel" VerticalOptions="FillAndExpand">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <time4Service:NullToBoolConverter x:Key="NullToBool" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <Grid Margin="16" RowSpacing="0" RowDefinitions="*,Auto" Padding="0" VerticalOptions="FillAndExpand">
+        <!-- TODO uncomment after migration -->
+        <!--<Frame Padding="0" Margin="0" HasShadow="False" SizeChanged="Frame_SizeChanged" Grid.Row="0" CornerRadius="0"
+               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+               BorderColor="{x:Static corp:CustomColors.Trennstrich}">-->
+        <Frame Padding="0" Margin="0" HasShadow="False" SizeChanged="Frame_SizeChanged" Grid.Row="0" CornerRadius="0"
+               HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"
+               BorderColor="Blue">
+            <Grid Padding="1">
+                <signaturePad:SignatureDrawingView x:Name="SigPad"
+                                   Grid.Column="0"
+                                   Grid.Row="0"
+                                   LineColor="#212121"
+                                   Margin="1"
+                                   LineWidth="5"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                   MinimumHeightRequest="150"
+                                   IsMultiLineModeEnabled="False"
+                                   BackgroundColor="White" 
+                                   ClearedText="Löschen"/>
+                <Label TextColor="#666666"
+                       Margin="12"
+                       Grid.Column="0"
+                       Grid.Row="0"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Start"
+                       Text="{Binding SignatoryTitle}" />
+            </Grid>
+        </Frame>
+        <StackLayout Orientation="Horizontal" Padding="0,8" Margin="0" Spacing="0" HorizontalOptions="Start"
+                     Grid.Row="1">
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding EditSignatoryCommand}"/>
+            </StackLayout.GestureRecognizers>
+            <Label FontSize="16" Text="{Binding SignatureDate, StringFormat='{}{0},'}" TextColor="#666666" />
+            <Label FontSize="16" Text="{Binding Signatory, StringFormat='{} {0}'}" TextColor="#666666"
+                   IsVisible="{Binding Signatory, Converter={StaticResource NullToBool}}" />
+            <StackLayout Orientation="Horizontal" Spacing="0"
+                         IsVisible="{Binding Signatory, Converter={StaticResource NullToBool}, ConverterParameter='True'}">
+                <Label FontSize="16" Text="{Binding SignatoryTitle, StringFormat='{} Unterzeichner ({0})'}"
+                       TextColor="#9E9E9E" />
+                <Label FontSize="16" Text="*" IsVisible="{Binding SignatoryMandatory}" TextColor="#9E9E9E" />
+            </StackLayout>
+            <!-- TODO uncomment adter migration -->
+            <!--<Image VerticalOptions="Center" HorizontalOptions="Start" Margin="8,0" WidthRequest="24" HeightRequest="24"
+                   Source="{time4:ImgRes ic_edit.png, ColorAsHex='#666666'}" />-->
+        </StackLayout>
+    </Grid>
+</ContentView>

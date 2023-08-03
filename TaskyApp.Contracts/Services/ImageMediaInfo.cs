@@ -28,7 +28,7 @@ public class ImageMediaInfo : IImageMediaInfo
         var downSizedImage = platformImage.Downsize(maxWidthOrHeight);
 
         var downsizedMemoryStream = new MemoryStream();
-        await downSizedImage.SaveAsync(downsizedMemoryStream);
+        await downSizedImage.SaveAsync(downsizedMemoryStream, quality:0.9F);
         downsizedMemoryStream.Position = 0; // reset to start of stream
 
         return downsizedMemoryStream;

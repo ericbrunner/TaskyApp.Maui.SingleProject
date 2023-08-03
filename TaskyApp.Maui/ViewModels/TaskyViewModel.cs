@@ -3,13 +3,10 @@ using MvvmHelpers.Commands;
 using MvvmHelpers.Interfaces;
 using System.Diagnostics;
 using System.Windows.Input;
-using Microsoft.Maui.Graphics.Platform;
 using TaskyApp.Contracts;
 using TaskyApp.Maui.SingleProject;
 using TaskyApp.Tasky.Messages;
 using TaskyApp.Contracts.Services;
-using IImage = Microsoft.Maui.Graphics.IImage;
-using Switch = Microsoft.Maui.Controls.Switch;
 
 namespace TaskyApp.ViewModels;
 

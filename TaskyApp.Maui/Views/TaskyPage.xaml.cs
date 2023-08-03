@@ -146,5 +146,12 @@ namespace TaskyApp.Maui.SingleProject.Views
 
             await Navigation.PushAsync(scannerPage as Page);
         }
+
+        private async void OpenSigningPad(object? sender, EventArgs e)
+        {
+            var signPage = new SignaturePage();
+
+            await Navigation.PushAsync(signPage);
+        }
     }
 }
