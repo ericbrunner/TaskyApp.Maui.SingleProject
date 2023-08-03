@@ -1,9 +1,6 @@
-﻿
+﻿using System.Windows.Input;
 
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-
-namespace time4service
+namespace TaskyApp.Maui.SingleProject.CustomControls.SignaturePad
 {
     public class MonteurUnterschrift
     {

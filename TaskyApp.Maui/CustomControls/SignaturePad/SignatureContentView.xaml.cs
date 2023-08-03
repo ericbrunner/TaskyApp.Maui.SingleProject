@@ -1,11 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Maui.Core;
-using CommunityToolkit.Maui.Views;
-using TaskyApp.Maui.SingleProject.CustomControls.SignaturePad;
-using time4service;
-using IView = Microsoft.Maui.IView;
+﻿using CommunityToolkit.Maui.Core;
 
-namespace msoft.Time4
+namespace TaskyApp.Maui.SingleProject.CustomControls.SignaturePad
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SignatureContentView : ContentView, IView
@@ -65,7 +60,6 @@ namespace msoft.Time4
 
             return ms.ToArray();
         }
-
 
         private void RemoveSignaturePadEvents()
         {
