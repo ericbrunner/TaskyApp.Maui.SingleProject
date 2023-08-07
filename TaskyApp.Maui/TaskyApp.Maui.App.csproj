@@ -74,41 +74,14 @@
 
 
 	<ItemGroup>
-	  <Folder Include="Effects\" />
-	  <Folder Include="Behaviors\" />
-	  <Folder Include="Platforms\Android\Handler\" />
-	  <Folder Include="Platforms\iOS\Handler\" />
-	  <Folder Include="Platforms\iOS\Legacy\Effects\" />
-	  <Folder Include="Platforms\Windows\Tasky\" />
-	</ItemGroup>
-
-
-
-	<ItemGroup>
-	  <Compile Update="CustomControls\Scanner\ScannerPage.xaml.cs">
-	    <DependentUpon>ScannerPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="CustomControls\SignaturePad\SignatureDrawingView.xaml.cs">
-	    <DependentUpon>SignatureDrawingView.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\SignaturePage.xaml.cs">
-	    <DependentUpon>SignaturePage.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-
-
-	<ItemGroup>
-	  <MauiXaml Update="CustomControls\SignaturePad\SignatureDrawingView.xaml">
+	  <MauiXaml Update="Views\CustomViews\View2.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SignaturePage.xaml">
+	  <MauiXaml Update="Views\CustomViews\View3.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 
 
-
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionTaskyAppMauiAppHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

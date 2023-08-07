@@ -12,6 +12,8 @@
     <PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Factories\" />
+    <Folder Include="ViewModels\" />
     <Folder Include="Services\" />
   </ItemGroup>
 </Project>

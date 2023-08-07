@@ -153,5 +153,12 @@ namespace TaskyApp.Maui.SingleProject.Views
 
             await Navigation.PushAsync(signPage);
         }
+
+        private async void OpenCustomTabbedPage(object? sender, EventArgs e)
+        {
+            var customTabbedPage = new CustomTabbedPage();
+
+            await Navigation.PushAsync(customTabbedPage);
+        }
     }
 }

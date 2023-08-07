@@ -1,13 +1,19 @@
-﻿using Camera.MAUI;
+﻿using System.Collections.ObjectModel;
+using Camera.MAUI;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.Controls.Compatibility.Hosting;
 using TaskyApp.Contracts;
+using TaskyApp.Contracts.Factories;
+using TaskyApp.Contracts.Models;
 using TaskyApp.Contracts.Services;
+using TaskyApp.Contracts.ViewModels;
 using TaskyApp.Maui.SingleProject.CustomControls;
 using TaskyApp.Maui.SingleProject.CustomControls.Scanner;
+using TaskyApp.Maui.SingleProject.Factories;
 using TaskyApp.Maui.SingleProject.Partials;
 using TaskyApp.Maui.SingleProject.Services;
+using TaskyApp.Maui.SingleProject.ViewModels;
 using TaskyApp.Services;
 using TaskyApp.ViewModels;
 
@@ -45,6 +51,12 @@ public static class MauiProgram
         builder.Services.AddSingleton<IScannerPage, ScannerPage>();
 
         builder.Services.AddSingleton<IMediaService, MediaService>();
+
+        builder.Services.AddTransient<ICustomTabbedPageViewModel, CustomTabbedPageViewModel>();
+        builder.Services.AddTransient<ITabItem, TabItem>();
+
+        builder.Services.AddSingleton<ICustomTabbedPageViewModelFactory, CustomTabbedPageViewModelFactory>();
+        builder.Services.AddSingleton<ITabItemFactory, TabItemFactory>();
 
         return builder.Build();
     }

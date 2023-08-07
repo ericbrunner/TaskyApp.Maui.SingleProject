@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:tabbedView="clr-namespace:TaskyApp.Maui.SingleProject.CustomControls.TabbedView"
+      xmlns:models="clr-namespace:TaskyApp.Contracts.Models;assembly=TaskyApp.Contracts"
+      x:Class="TaskyApp.Maui.SingleProject.CustomControls.TabbedView.TabbedView"
+      x:Name="This">
+
+    <Grid RowDefinitions="auto,*,auto">
+        <tabbedView:TabBar Grid.Row="0"  
+                           IsVisible="True" />
+
+        <CarouselView Grid.Row="1"
+                      x:Name="CarouselView"
+                      ItemsSource="{Binding Source={x:Reference This}, Path=TabItems}">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:DataType="models:ITabItem">
+                        <ContentView Grid.Row="0" Content="{Binding View}" />
+                    </Grid>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+        <!--<CollectionView Grid.Row="1" x:Name="CollectionView" 
+                        BackgroundColor="LightBlue" 
+                        ItemsSource="{Binding Source={x:Reference This}, Path=TabItems}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid x:DataType="models:ITabItem">
+                        <ContentView Grid.Row="0" Content="{Binding View}"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>-->
+
+        <Label Grid.Row="1" x:Name="Label" Text="{Binding Source={x:Reference This}, Path=TestText}" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Center"
+               BackgroundColor="Blue"
+               TextColor="White"/>
+        <tabbedView:TabBar Grid.Row="2" 
+                           IsVisible="True" />
+
+    </Grid>
+
+
+</ContentView>
