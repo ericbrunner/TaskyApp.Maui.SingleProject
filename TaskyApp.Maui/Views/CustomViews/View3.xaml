@@ -2,9 +2,9 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TaskyApp.Maui.SingleProject.Views.CustomViews.View3">
-    <VerticalStackLayout>
+    <VerticalStackLayout BackgroundColor="Green">
         <Label 
-            Text="Welcome to .NET MAUI - VIEW 2"
+            Text="Welcome to .NET MAUI - VIEW 3"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
     </VerticalStackLayout>

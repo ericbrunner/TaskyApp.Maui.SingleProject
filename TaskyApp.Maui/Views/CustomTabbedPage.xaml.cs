@@ -11,9 +11,9 @@ public partial class CustomTabbedPage
     private readonly ICustomTabbedPageViewModel _viewModel;
     public CustomTabbedPage()
     {
-        var view1= App.Get<ITabItemFactory>()!.Create(new View1());
-        var view2= App.Get<ITabItemFactory>()!.Create(new View2());
-        var view3= App.Get<ITabItemFactory>()!.Create(new View3());
+        var view1= App.Get<ITabItemFactory>()!.Create(() => new View1());
+        var view2= App.Get<ITabItemFactory>()!.Create(() => new View2());
+        var view3= App.Get<ITabItemFactory>()!.Create(() => new View3());
 
         var tabItems = new List<ITabItem>()
         {

@@ -5,7 +5,7 @@
              x:Class="TaskyApp.Maui.SingleProject.CustomControls.TabbedView.TabBar"
              ColumnDefinitions="auto,*,auto">
 
-	<Label Grid.Column="0" Text="left" IsVisible="True"/>
-    <Label Grid.Column="1" Text="Toolbuttons"/>
-    <Label Grid.Column="2" Text="right" IsVisible="True"/>
+	<Label Grid.Column="0" Text="left" IsVisible="True" />
+    <Label Grid.Column="1" Text="Toolbuttons" />
+    <Label Grid.Column="2" Text="right" IsVisible="True" />
 </Grid>

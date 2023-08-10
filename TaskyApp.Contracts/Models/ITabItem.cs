@@ -2,7 +2,7 @@
 
 public interface ITabItem
 {
-    View View { get; set; }
+    View View { get; }
 
-    void Init(View  view);
+    void Init(Func<View> viewFactory);
 }

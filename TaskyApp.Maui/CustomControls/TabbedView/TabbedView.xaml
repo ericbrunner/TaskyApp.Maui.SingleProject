@@ -3,46 +3,37 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:tabbedView="clr-namespace:TaskyApp.Maui.SingleProject.CustomControls.TabbedView"
-      xmlns:models="clr-namespace:TaskyApp.Contracts.Models;assembly=TaskyApp.Contracts"
+      xmlns:devices="using:Microsoft.Maui.Devices"
       x:Class="TaskyApp.Maui.SingleProject.CustomControls.TabbedView.TabbedView"
       x:Name="This">
 
+
+
+    <!-- TODOs 
+    TabBar: set height in code
+             set visible in code -->
+
     <Grid RowDefinitions="auto,*,auto">
         <tabbedView:TabBar Grid.Row="0"  
-                           IsVisible="True" />
+                           IsVisible="True" 
+                           
+                           HeightRequest="50"
+                           BackgroundColor="LightBlue"/>
 
-        <CarouselView Grid.Row="1"
-                      x:Name="CarouselView"
-                      ItemsSource="{Binding Source={x:Reference This}, Path=TabItems}">
-            <CarouselView.ItemTemplate>
-                <DataTemplate>
-                    <Grid x:DataType="models:ITabItem">
-                        <ContentView Grid.Row="0" Content="{Binding View}" />
-                    </Grid>
-                </DataTemplate>
-            </CarouselView.ItemTemplate>
-        </CarouselView>
+        <ContentView Grid.Row="1"
+                      x:Name="ContainerView">
+            <ContentView.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Right" Command="{Binding Source={x:Reference This}, Path=SwipeRightCommand}" />
+                <SwipeGestureRecognizer Direction="Left" Command="{Binding Source={x:Reference This}, Path=SwipeLeftCommand}" />
+            </ContentView.GestureRecognizers>
+        </ContentView>
 
-        <!--<CollectionView Grid.Row="1" x:Name="CollectionView" 
-                        BackgroundColor="LightBlue" 
-                        ItemsSource="{Binding Source={x:Reference This}, Path=TabItems}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid x:DataType="models:ITabItem">
-                        <ContentView Grid.Row="0" Content="{Binding View}"/>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
 
-        </CollectionView>-->
-
-        <Label Grid.Row="1" x:Name="Label" Text="{Binding Source={x:Reference This}, Path=TestText}" 
-               HorizontalOptions="Center" 
-               VerticalOptions="Center"
-               BackgroundColor="Blue"
-               TextColor="White"/>
         <tabbedView:TabBar Grid.Row="2" 
-                           IsVisible="True" />
+                           IsVisible="True"  
+                           
+                           HeightRequest="50"
+                           BackgroundColor="LightGray"/>
 
     </Grid>
 

@@ -7,13 +7,7 @@
              x:Class="TaskyApp.Maui.SingleProject.Views.CustomTabbedPage"
              x:DataType="viewModels1:ICustomTabbedPageViewModel">
 
-    <Grid RowDefinitions="*,*">
-        <tabbedView:TabbedView Grid.Row="0" x:Name="TabbedView"
-                               TabItems="{Binding ItemsSource}"
-                               TestText="{Binding Title}"
-                               BackgroundColor="LightCyan" />
-
-        <CollectionView Grid.Row="1" ItemsSource="{Binding ItemsSource}" BackgroundColor="LightBlue" />
-    </Grid>
-
+    <tabbedView:TabbedView x:Name="TabbedView"
+                           TabItems="{Binding ItemsSource}"
+                           TestText="{Binding Title}"/>
 </ContentPage>
