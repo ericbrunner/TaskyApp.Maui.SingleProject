@@ -3,7 +3,6 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
       xmlns:tabbedView="clr-namespace:TaskyApp.Maui.SingleProject.CustomControls.TabbedView"
-      xmlns:devices="using:Microsoft.Maui.Devices"
       x:Class="TaskyApp.Maui.SingleProject.CustomControls.TabbedView.TabbedView"
       x:Name="This">
 
@@ -15,10 +14,13 @@
 
     <Grid RowDefinitions="auto,*,auto">
         <tabbedView:TabBar Grid.Row="0"  
+                           TabBarType="Top"
+                           ShowArrows="False"
                            IsVisible="True" 
-                           
-                           HeightRequest="50"
-                           BackgroundColor="LightBlue"/>
+                           ItemsSource="{Binding Source={x:Reference This}, Path=TabItems}"
+                           SelectedTab="{Binding Source={x:Reference This}, Path=SelectedTab}"
+                           HeightRequest="48"
+                           BackgroundColor="#E2001A"/>
 
         <ContentView Grid.Row="1"
                       x:Name="ContainerView">
@@ -30,10 +32,13 @@
 
 
         <tabbedView:TabBar Grid.Row="2" 
-                           IsVisible="True"  
-                           
-                           HeightRequest="50"
-                           BackgroundColor="LightGray"/>
+                           TabBarType="Bottom"
+                           ShowArrows="True"
+                           IsVisible="True" 
+                           ItemsSource="{Binding Source={x:Reference This}, Path=TabItems}"
+                           SelectedTab="{Binding Source={x:Reference This}, Path=SelectedTab}"
+                           HeightRequest="48"
+                           BackgroundColor="#666666"/>
 
     </Grid>
 

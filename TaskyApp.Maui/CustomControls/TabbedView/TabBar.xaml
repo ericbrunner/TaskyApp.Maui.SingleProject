@@ -1,11 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TaskyApp.Maui.SingleProject.CustomControls.TabbedView.TabBar"
-             ColumnDefinitions="auto,*,auto">
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:models="clr-namespace:TaskyApp.Contracts.Models;assembly=TaskyApp.Contracts"
+      xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+      x:Class="TaskyApp.Maui.SingleProject.CustomControls.TabbedView.TabBar"
+      ColumnDefinitions="auto,*,auto"
+      x:DataType="TabBar"
+      x:Name="This">
 
-	<Label Grid.Column="0" Text="left" IsVisible="True" />
-    <Label Grid.Column="1" Text="Toolbuttons" />
-    <Label Grid.Column="2" Text="right" IsVisible="True" />
+    <!-- TODOs 
+                 NavLeft: set visible in code
+                                            -->
+    <Image Grid.Column="0"
+           Source="ic_chevron_left.png"
+           HeightRequest="{Binding Source={x:Reference This}, Path=NavIconHeight}"
+           WidthRequest="{Binding Source={x:Reference This}, Path=NavIconWidth}"
+           Margin="12"
+           IsVisible="{Binding Source={x:Reference This}, Path=ShowArrows}" >
+        <Image.Behaviors>
+            <toolkit:IconTintColorBehavior TintColor="White"/>
+        </Image.Behaviors>
+    </Image>
+
+    <CollectionView Grid.Column="1" 
+                    HorizontalOptions="Center"
+                    x:Name="CollectionView"
+                    ItemsLayout="HorizontalList"
+                    x:DataType="models:TabItem">
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="models:ITabItem">
+                <!-- TODOs 
+                 Image: set height in code
+                                            -->
+                <Grid WidthRequest="{Binding Source={x:Reference This}, Path=ContainerWidth}" RowDefinitions="*,auto">
+                    <Image
+                        Grid.Row="0"
+                        Source="{Binding Icon}"
+                        Aspect="AspectFill"
+                        HeightRequest="{Binding IconHeight}"
+                        WidthRequest="{Binding IconWidth}"
+                        Opacity="{Binding IconOpacity}"
+                        >
+                        <Image.Behaviors>
+                            <toolkit:IconTintColorBehavior TintColor="White"/>
+                        </Image.Behaviors>
+                    </Image>
+
+                    <BoxView Grid.Row="1"
+                             Color="White"
+                             IsVisible="{Binding IsActive}"
+                             HeightRequest="2" />
+                </Grid>
+
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+    </CollectionView>
+
+    <!-- TODOs 
+                 NavRight: set visible in code
+                                            -->
+    <Image Grid.Column="2"
+           Source="ic_chevron_right.png"
+           HeightRequest="{Binding Source={x:Reference This}, Path=NavIconHeight}"
+           WidthRequest="{Binding Source={x:Reference This}, Path=NavIconWidth}"
+           Margin="12"
+           IsVisible="{Binding Source={x:Reference This}, Path=ShowArrows}" >
+        <Image.Behaviors>
+            <toolkit:IconTintColorBehavior TintColor="White"/>
+        </Image.Behaviors>
+    </Image>
 </Grid>

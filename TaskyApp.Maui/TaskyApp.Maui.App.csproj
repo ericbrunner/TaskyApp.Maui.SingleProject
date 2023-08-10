@@ -64,29 +64,13 @@
 	<ItemGroup>
 		<PackageReference Include="Xamarin.AndroidX.Work.Runtime" Version="2.7.1.5" Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'" />
 	</ItemGroup>
-
-
-
 	<ItemGroup>
 	  <ProjectReference Include="..\TaskyApp.Contracts\TaskyApp.Contracts.csproj" />
 	</ItemGroup>
 
 
 
-	<ItemGroup>
-	  <MauiXaml Update="Views\CustomViews\View2.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\CustomViews\View3.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	</ItemGroup>
 
-
-
-	<ItemGroup>
-	  <Folder Include="CustomControls\TabbedView\DataTemplates\" />
-	</ItemGroup>
 
 
 

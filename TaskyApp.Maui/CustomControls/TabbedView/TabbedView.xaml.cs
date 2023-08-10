@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using MvvmHelpers;
 using MvvmHelpers.Commands;
@@ -24,32 +25,32 @@ public partial class TabbedView : ITabbedView
 
     private async Task SwipeLeft()
     {
-        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeLeft)} current _selectedItemIndex:{_selectedItemIndex}");
+        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeLeft)} current _selectedItemIndex:{SelectedTab}");
         
         if (_itemsSource == null) return;
-        if (_selectedItemIndex == -1) return;
+        if (SelectedTab == -1) return;
 
-        if (_selectedItemIndex == _itemsSource.Count-1) return;
+        if (SelectedTab == _itemsSource.Count-1) return;
 
-        _selectedItemIndex++;
+        SelectedTab++;
 
-        var newView = _itemsSource.ElementAt(_selectedItemIndex).View;
+        var newView = _itemsSource.ElementAt(SelectedTab).View;
         ContainerView.Content = newView;
 
-        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeLeft)} new _selectedItemIndex:{_selectedItemIndex}");
+        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeLeft)} new _selectedItemIndex:{SelectedTab}");
     }
 
     private void SwipeRight()
     {
-        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeRight)} current _selectedItemIndex:{_selectedItemIndex}");
+        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeRight)} current _selectedItemIndex:{SelectedTab}");
 
         if (_itemsSource == null) return;
-        if (_selectedItemIndex <= 0) return;
+        if (SelectedTab <= 0) return;
 
-        _selectedItemIndex--;
-        ContainerView.Content = _itemsSource.ElementAt(_selectedItemIndex).View;
+        SelectedTab--;
+        ContainerView.Content = _itemsSource.ElementAt(SelectedTab).View;
 
-        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeRight)} new _selectedItemIndex:{_selectedItemIndex}");
+        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeRight)} new _selectedItemIndex:{SelectedTab}");
     }
 
 
@@ -84,7 +85,7 @@ public partial class TabbedView : ITabbedView
         typeof(TabbedView),
         propertyChanged: TabItemsPropertyChanged);
 
-    private int _selectedItemIndex = -1;
+
     private List<ITabItem>? _itemsSource;
 
     private static void TabItemsPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
@@ -102,7 +103,7 @@ public partial class TabbedView : ITabbedView
         if (firstContent == null) return;
 
         tabbedView.ContainerView.Content = firstContent.View;
-        tabbedView._selectedItemIndex = 0;
+        tabbedView.SelectedTab = 0;
 
     }
 
@@ -115,6 +116,27 @@ public partial class TabbedView : ITabbedView
     public ICommand SwipeRightCommand { get; }
     public ICommand SwipeLeftCommand { get; }
 
+
+    private int _selectedTab = -1;
+
+    public int SelectedTab
+    {
+        get => _selectedTab; 
+        set => SetProperty(ref _selectedTab, value);
+    }
+
+    protected virtual bool SetProperty<T>(
+        ref T backingStore,
+        T value,
+        [CallerMemberName] string propertyName = "")
+    {
+        if (EqualityComparer<T>.Default.Equals(backingStore, value)) return false;
+
+        backingStore = value;
+
+        OnPropertyChanged(propertyName);
+        return true;
+    }
 }
 
 public interface ITabbedView

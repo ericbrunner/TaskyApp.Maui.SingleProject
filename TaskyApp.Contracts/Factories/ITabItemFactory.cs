@@ -4,5 +4,5 @@ namespace TaskyApp.Contracts.Factories;
 
 public interface ITabItemFactory
 {
-    ITabItem Create(Func<View> viewFactory);
+    ITabItem Create();
 }
