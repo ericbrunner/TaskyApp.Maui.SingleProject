@@ -23,8 +23,7 @@
             <toolkit:IconTintColorBehavior TintColor="White"/>
         </Image.Behaviors>
         <Image.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding Source={x:Reference This}, Path=NavCommand}"
-                                  CommandParameter="left"/>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference This}, Path=NavLeftCommand}"/>
         </Image.GestureRecognizers>
     </Image>
 
@@ -82,8 +81,7 @@
             <toolkit:IconTintColorBehavior TintColor="White"/>
         </Image.Behaviors>
         <Image.GestureRecognizers>
-            <TapGestureRecognizer Command="{Binding Source={x:Reference This}, Path=NavCommand}"
-                                  CommandParameter="right"/>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference This}, Path=NavRightCommand}"/>
         </Image.GestureRecognizers>
     </Image>
 </Grid>

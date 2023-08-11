@@ -15,37 +15,43 @@ public partial class TabBar : ITabBar
     public TabBar()
     {
         TabItemSelectCommand = new Command<ITabItem>(TabItemSelect);
-        NavCommand = new Command<string>(Execute, argument =>
+
+
+        NavLeftCommand = new Command(NavLeftExecute, () =>
         {
             
-            bool canExecute = SelectedTab > 0 || TabItems != null && SelectedTab < TabItems.Count - 1;
+            bool canExecute = SelectedTab > 0;
 
-            System.Diagnostics.Debug.WriteLine($"{nameof(NavCommand)}.CanExecute: {canExecute} / {nameof(SelectedTab)}:{SelectedTab}");
+            System.Diagnostics.Debug.WriteLine($"{nameof(NavLeftCommand)}.CanExecute: {canExecute} / {nameof(SelectedTab)}:{SelectedTab}");
             return canExecute;
         });
+
+        NavRightCommand = new Command(NavRightExecute, () =>
+        {
+
+            bool canExecute = TabItems != null && SelectedTab < TabItems.Count - 1;
+
+            System.Diagnostics.Debug.WriteLine($"{nameof(NavRightCommand)}.CanExecute: {canExecute} / {nameof(SelectedTab)}:{SelectedTab}");
+            return canExecute;
+        });
+
 
         InitializeComponent();
     }
 
-    private void Execute(string argument)
+    private void NavLeftExecute()
     {
-        if (NavRight.Equals(argument, StringComparison.InvariantCultureIgnoreCase))
-        {
-            SelectedTab++;
+        SelectedTab--;
 
-            System.Diagnostics.Debug.WriteLine($"{nameof(NavCommand)} - NEW {nameof(SelectedTab)}:{SelectedTab}");
-        }
-
-        if (NavLeft.Equals(argument, StringComparison.InvariantCultureIgnoreCase))
-        {
-            if (SelectedTab <= 0) return;
-
-            SelectedTab--;
-
-            System.Diagnostics.Debug.WriteLine($"{nameof(NavCommand)} - NEW {nameof(SelectedTab)}:{SelectedTab}");
-        }
+        System.Diagnostics.Debug.WriteLine($"{nameof(NavLeftCommand)} - NEW {nameof(SelectedTab)}:{SelectedTab}");
     }
 
+    private void NavRightExecute()
+    {
+        SelectedTab++;
+
+        System.Diagnostics.Debug.WriteLine($"{nameof(NavRightCommand)} - NEW {nameof(SelectedTab)}:{SelectedTab}");
+    }
 
     private void TabItemSelect(ITabItem tabItem)
     {
@@ -214,7 +220,9 @@ public partial class TabBar : ITabBar
     }
 
     public Command<ITabItem> TabItemSelectCommand { get; }
-    public ICommand NavCommand { get; }
+    public ICommand NavLeftCommand { get; }
+
+    public ICommand NavRightCommand { get; }
 
     private const double BottomInactiveOpacity = .38;
     private const double TopInactiveOpacity = .74;
@@ -222,6 +230,7 @@ public partial class TabBar : ITabBar
 
     public double NavRightOpacity => TabItems != null && SelectedTab == TabItems.Count - 1 ? BottomInactiveOpacity : 1.0;
     public double NavLeftOpacity => SelectedTab == 0 ? BottomInactiveOpacity : 1.0;
+
 
 
     private void SetProperty<T>(ref T backingStore,
