@@ -8,14 +8,17 @@ using TaskyApp.Contracts.Factories;
 using TaskyApp.Contracts.Models;
 using TaskyApp.Contracts.Services;
 using TaskyApp.Contracts.ViewModels;
+using TaskyApp.Contracts.Views;
 using TaskyApp.Maui.SingleProject.CustomControls;
 using TaskyApp.Maui.SingleProject.CustomControls.Scanner;
+using TaskyApp.Maui.SingleProject.CustomControls.TabbedView;
 using TaskyApp.Maui.SingleProject.Factories;
 using TaskyApp.Maui.SingleProject.Partials;
 using TaskyApp.Maui.SingleProject.Services;
 using TaskyApp.Maui.SingleProject.ViewModels;
 using TaskyApp.Services;
 using TaskyApp.ViewModels;
+using TabBar = TaskyApp.Maui.SingleProject.CustomControls.TabbedView.TabBar;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -58,6 +61,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICustomTabbedPageViewModelFactory, CustomTabbedPageViewModelFactory>();
         builder.Services.AddSingleton<ITabItemFactory, TabItemFactory>();
 
+        builder.Services.AddTransient<ITabBar, TabBar>();
+
+        builder.Services.AddTransient<TaskyApp.Contracts.Views.ITabbedView, TabbedView>();
         return builder.Build();
     }
 }

@@ -5,5 +5,5 @@ namespace TaskyApp.Contracts.Factories;
 
 public interface ICustomTabbedPageViewModelFactory
 {
-    ICustomTabbedPageViewModel Create(IEnumerable<ITabItem> tabItems);
+    ICustomTabbedPageViewModel? Create(IEnumerable<ITabItem> tabItems);
 }

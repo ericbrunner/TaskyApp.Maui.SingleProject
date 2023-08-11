@@ -17,10 +17,15 @@
            HeightRequest="{Binding Source={x:Reference This}, Path=NavIconHeight}"
            WidthRequest="{Binding Source={x:Reference This}, Path=NavIconWidth}"
            Margin="12"
-           IsVisible="{Binding Source={x:Reference This}, Path=ShowArrows}" >
+           IsVisible="{Binding Source={x:Reference This}, Path=ShowArrows}"
+           Opacity="{Binding Source={x:Reference This}, Path=NavLeftOpacity}">
         <Image.Behaviors>
             <toolkit:IconTintColorBehavior TintColor="White"/>
         </Image.Behaviors>
+        <Image.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference This}, Path=NavCommand}"
+                                  CommandParameter="left"/>
+        </Image.GestureRecognizers>
     </Image>
 
     <CollectionView Grid.Column="1" 
@@ -46,6 +51,10 @@
                         <Image.Behaviors>
                             <toolkit:IconTintColorBehavior TintColor="White"/>
                         </Image.Behaviors>
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:Reference This}, Path=TabItemSelectCommand}"
+                                                  CommandParameter="{Binding .}"/>
+                        </Image.GestureRecognizers>
                     </Image>
 
                     <BoxView Grid.Row="1"
@@ -67,9 +76,14 @@
            HeightRequest="{Binding Source={x:Reference This}, Path=NavIconHeight}"
            WidthRequest="{Binding Source={x:Reference This}, Path=NavIconWidth}"
            Margin="12"
-           IsVisible="{Binding Source={x:Reference This}, Path=ShowArrows}" >
+           IsVisible="{Binding Source={x:Reference This}, Path=ShowArrows}"
+           Opacity="{Binding Source={x:Reference This}, Path=NavRightOpacity}">
         <Image.Behaviors>
             <toolkit:IconTintColorBehavior TintColor="White"/>
         </Image.Behaviors>
+        <Image.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference This}, Path=NavCommand}"
+                                  CommandParameter="right"/>
+        </Image.GestureRecognizers>
     </Image>
 </Grid>

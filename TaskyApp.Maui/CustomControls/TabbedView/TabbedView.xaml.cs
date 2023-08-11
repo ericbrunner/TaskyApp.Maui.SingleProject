@@ -2,82 +2,68 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using MvvmHelpers;
-using MvvmHelpers.Commands;
 using TaskyApp.Contracts.Models;
 using Command = Microsoft.Maui.Controls.Command;
+using ITabbedView = TaskyApp.Contracts.Views.ITabbedView;
 
 namespace TaskyApp.Maui.SingleProject.CustomControls.TabbedView;
 
-public partial class TabbedView : ITabbedView
+public sealed partial class TabbedView : ITabbedView, IDisposable
 {
     public TabbedView()
     {
         #region Init
 
-        SwipeLeftCommand = new AsyncCommand(SwipeLeft);
+        SwipeLeftCommand = new Command(SwipeLeft);
         SwipeRightCommand = new Command(SwipeRight);
+
+        PropertyChanged += OnPropertyChanged;
 
         #endregion
 
         InitializeComponent();
     }
 
-    private async Task SwipeLeft()
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        System.Diagnostics.Debug.Write(
+            $"{nameof(PropertyChanged)} - sender:{sender?.GetType().Name} / Changed Property: {e.PropertyName}");
+
+        if (nameof(SelectedTab).Equals(e.PropertyName))
+        {
+            if (_itemsSource == null) return;
+            ContainerView.Content = _itemsSource.ElementAt(SelectedTab).View;
+
+            System.Diagnostics.Debug.WriteLine($" == {SelectedTab}");
+        }
+    }
+
+    public void Dispose()
+    {
+        PropertyChanged -= OnPropertyChanged;
+    }
+
+    private void SwipeLeft()
     {
         System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeLeft)} current _selectedItemIndex:{SelectedTab}");
-        
+
         if (_itemsSource == null) return;
         if (SelectedTab == -1) return;
 
-        if (SelectedTab == _itemsSource.Count-1) return;
+        if (SelectedTab == _itemsSource.Count - 1) return;
 
         SelectedTab++;
-
-        var newView = _itemsSource.ElementAt(SelectedTab).View;
-        ContainerView.Content = newView;
-
-        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeLeft)} new _selectedItemIndex:{SelectedTab}");
     }
 
     private void SwipeRight()
     {
         System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeRight)} current _selectedItemIndex:{SelectedTab}");
 
-        if (_itemsSource == null) return;
         if (SelectedTab <= 0) return;
 
         SelectedTab--;
-        ContainerView.Content = _itemsSource.ElementAt(SelectedTab).View;
-
-        System.Diagnostics.Debug.WriteLine($"SWIPE - {nameof(SwipeRight)} new _selectedItemIndex:{SelectedTab}");
     }
 
-
-    public static readonly BindableProperty TestTextProperty = BindableProperty.Create(
-        nameof(TestText),
-        typeof(string),
-        typeof(TabbedView),
-        default(string),
-        propertyChanged: TestTextPropertyChanged);
-
-
-    private static void TestTextPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
-    {
-        System.Diagnostics.Debug.WriteLine(
-            $"{nameof(TestTextPropertyChanged)} invoked. old: {oldvalue}, new: {newvalue}");
-
-        if (bindable is not TabbedView tabbedView) return;
-
-        //tabbedView.Label.Text = newvalue as string;
-    }
-
-
-    public string? TestText
-    {
-        get => (string?)GetValue(TestTextProperty);
-        set => SetValue(TestTextProperty, value);
-    }
 
     public static readonly BindableProperty TabItemsProperty = BindableProperty.Create(
         nameof(TabItems),
@@ -104,7 +90,6 @@ public partial class TabbedView : ITabbedView
 
         tabbedView.ContainerView.Content = firstContent.View;
         tabbedView.SelectedTab = 0;
-
     }
 
     public ObservableCollection<ITabItem> TabItems
@@ -121,27 +106,18 @@ public partial class TabbedView : ITabbedView
 
     public int SelectedTab
     {
-        get => _selectedTab; 
+        get => _selectedTab;
         set => SetProperty(ref _selectedTab, value);
     }
 
-    protected virtual bool SetProperty<T>(
-        ref T backingStore,
+    private void SetProperty<T>(ref T backingStore,
         T value,
         [CallerMemberName] string propertyName = "")
     {
-        if (EqualityComparer<T>.Default.Equals(backingStore, value)) return false;
+        if (EqualityComparer<T>.Default.Equals(backingStore, value)) return;
 
         backingStore = value;
 
         OnPropertyChanged(propertyName);
-        return true;
     }
-}
-
-public interface ITabbedView
-{
-    ObservableCollection<ITabItem> TabItems { get; set; }
-    ICommand SwipeRightCommand { get; }
-    ICommand SwipeLeftCommand { get; }
 }

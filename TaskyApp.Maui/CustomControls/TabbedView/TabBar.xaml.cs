@@ -1,22 +1,64 @@
-﻿
-using Microsoft.Maui.Controls;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
-using MvvmHelpers;
+using System.Windows.Input;
+using TaskyApp.Contracts.Enums;
 using TaskyApp.Contracts.Models;
+using TaskyApp.Contracts.Views;
 
 namespace TaskyApp.Maui.SingleProject.CustomControls.TabbedView;
 
 public partial class TabBar : ITabBar
 {
+    private const string NavLeft = "left";
+    private const string NavRight = "right";
+
     public TabBar()
     {
+        TabItemSelectCommand = new Command<ITabItem>(TabItemSelect);
+        NavCommand = new Command<string>(Execute, argument =>
+        {
+            
+            bool canExecute = SelectedTab > 0 || TabItems != null && SelectedTab < TabItems.Count - 1;
+
+            System.Diagnostics.Debug.WriteLine($"{nameof(NavCommand)}.CanExecute: {canExecute} / {nameof(SelectedTab)}:{SelectedTab}");
+            return canExecute;
+        });
+
         InitializeComponent();
     }
-    
+
+    private void Execute(string argument)
+    {
+        if (NavRight.Equals(argument, StringComparison.InvariantCultureIgnoreCase))
+        {
+            SelectedTab++;
+
+            System.Diagnostics.Debug.WriteLine($"{nameof(NavCommand)} - NEW {nameof(SelectedTab)}:{SelectedTab}");
+        }
+
+        if (NavLeft.Equals(argument, StringComparison.InvariantCultureIgnoreCase))
+        {
+            if (SelectedTab <= 0) return;
+
+            SelectedTab--;
+
+            System.Diagnostics.Debug.WriteLine($"{nameof(NavCommand)} - NEW {nameof(SelectedTab)}:{SelectedTab}");
+        }
+    }
+
+
+    private void TabItemSelect(ITabItem tabItem)
+    {
+        if (TabItems == null) return;
+
+        SelectedTab = TabItems.IndexOf(tabItem);
+
+        System.Diagnostics.Debug.WriteLine($"selected tabitem index: {SelectedTab}");
+    }
+
     public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(
-        nameof(ItemsSource), 
-        typeof(ObservableCollection<ITabItem>), 
+        nameof(ItemsSource),
+        typeof(ObservableCollection<ITabItem>),
         typeof(TabBar),
         propertyChanged: ItemsSourcePropertyChanged);
 
@@ -26,17 +68,20 @@ public partial class TabBar : ITabBar
         if (newvalue is not ObservableCollection<ITabItem> tabItems) return;
 
 
-        tabBar.TabItems = tabItems.ToList();
+        tabBar.TabItems = new List<ITabItem>();
 
-        foreach (var tabBarTabItem in tabBar.TabItems)
+        foreach (var tabBarTabItem in tabItems)
         {
-            tabBarTabItem.InactiveIconOpacity = tabBar.InactiveIconOpacity;
+            var clone = tabBarTabItem.ShallowCopy();
+
+            if (clone == null) continue;
+
+            clone.InactiveIconOpacity = tabBar.InactiveIconOpacity;
+
+            tabBar.TabItems.Add(clone);
         }
 
         tabBar.CollectionView.ItemsSource = tabBar.TabItems;
-
-        System.Diagnostics.Debug.WriteLine($"TABBAR - ItemSource set.");
-
     }
 
     protected override Size ArrangeOverride(Rect bounds)
@@ -47,16 +92,16 @@ public partial class TabBar : ITabBar
         var iconDimension = tabBarHeight / 2;
         NavIconHeight = NavIconWidth = iconDimension;
 
+        if (TabItems == null) return base.ArrangeOverride(bounds);
+
         foreach (var tabBarTabItem in TabItems)
         {
             tabBarTabItem.IconHeight = iconDimension;
             tabBarTabItem.IconWidth = iconDimension;
         }
-        
+
         return base.ArrangeOverride(bounds);
     }
-
-
 
 
     public ObservableCollection<ITabItem> ItemsSource
@@ -65,36 +110,37 @@ public partial class TabBar : ITabBar
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public List<ITabItem> TabItems { get; set; }
+    public List<ITabItem>? TabItems { get; set; }
 
     private double _navIconHeight;
 
     public double NavIconHeight
     {
-        get => _navIconHeight; 
+        get => _navIconHeight;
         set => SetProperty(ref _navIconHeight, value);
     }
 
     private double _navIconWidth;
+
     public static readonly BindableProperty TabBarTypeProperty = BindableProperty.Create(
-        nameof(TabBarType), 
-        typeof(TabBarTypeEnum), 
+        nameof(TabBarType),
+        typeof(TabBarTypeEnum),
         typeof(TabBar),
         propertyChanged: TabBarTypePropertyChanged);
 
     public static readonly BindableProperty SelectedTabProperty = BindableProperty.Create(
-        nameof(SelectedTab), 
-        typeof(int), 
-        typeof(TabBar), 
+        nameof(SelectedTab),
+        typeof(int),
+        typeof(TabBar),
         -1,
+        defaultBindingMode: BindingMode.TwoWay,
         propertyChanged: SelectedTabPropertyChanged);
 
     public static readonly BindableProperty ShowArrowsProperty = BindableProperty.Create(
-        nameof(ShowArrows), 
-        typeof(bool), 
-        typeof(TabBar), 
+        nameof(ShowArrows),
+        typeof(bool),
+        typeof(TabBar),
         default(bool));
-
 
 
     private static void SelectedTabPropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
@@ -105,28 +151,33 @@ public partial class TabBar : ITabBar
 
         if (selectedTab < 0) return;
 
+        if (tabBar.TabItems == null) return;
+
         for (var i = 0; i < tabBar.TabItems.Count; i++)
         {
             tabBar.TabItems[i].IsActive = selectedTab == i;
         }
 
+        tabBar.OnPropertyChanged(nameof(NavLeftOpacity));
+        tabBar.OnPropertyChanged(nameof(NavRightOpacity));
     }
 
     private static void TabBarTypePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
     {
         if (bindable is not TabBar tabBar) return;
-        
+
         var castedValue = (TabBarTypeEnum)newvalue;
 
         tabBar.ContainerWidth = tabBar.TabBarType == TabBarTypeEnum.Top ? 120 : 48;
-        tabBar.InactiveIconOpacity = castedValue == TabBarTypeEnum.Top ? .74d : .38d;
+
+        tabBar.InactiveIconOpacity = castedValue == TabBarTypeEnum.Top ? TopInactiveOpacity : BottomInactiveOpacity;
     }
 
     public double InactiveIconOpacity { get; set; }
 
     public double NavIconWidth
     {
-        get => _navIconWidth; 
+        get => _navIconWidth;
         set => SetProperty(ref _navIconWidth, value);
     }
 
@@ -139,7 +190,13 @@ public partial class TabBar : ITabBar
     public int SelectedTab
     {
         get => (int)GetValue(SelectedTabProperty);
-        set => SetValue(SelectedTabProperty, value);
+        set
+        {
+            SetValue(SelectedTabProperty, value);
+
+            OnPropertyChanged(nameof(NavLeftOpacity));
+            OnPropertyChanged(nameof(NavRightOpacity));
+        }
     }
 
     public bool ShowArrows
@@ -152,36 +209,29 @@ public partial class TabBar : ITabBar
 
     public double ContainerWidth
     {
-        get => _containerWidth; 
+        get => _containerWidth;
         set => SetProperty(ref _containerWidth, value);
     }
 
+    public Command<ITabItem> TabItemSelectCommand { get; }
+    public ICommand NavCommand { get; }
 
-    protected virtual bool SetProperty<T>(
-        ref T backingStore, 
+    private const double BottomInactiveOpacity = .38;
+    private const double TopInactiveOpacity = .74;
+
+
+    public double NavRightOpacity => TabItems != null && SelectedTab == TabItems.Count - 1 ? BottomInactiveOpacity : 1.0;
+    public double NavLeftOpacity => SelectedTab == 0 ? BottomInactiveOpacity : 1.0;
+
+
+    private void SetProperty<T>(ref T backingStore,
         T value,
         [CallerMemberName] string propertyName = "")
     {
-        if (EqualityComparer<T>.Default.Equals(backingStore, value)) return false;
+        if (EqualityComparer<T>.Default.Equals(backingStore, value)) return;
 
         backingStore = value;
 
         OnPropertyChanged(propertyName);
-        return true;
     }
-
-
-}
-
-public enum TabBarTypeEnum
-{
-    None,
-    Top,
-    Bottom
-}
-
-public interface ITabBar
-{
-    ObservableCollection<ITabItem> ItemsSource { get; set; }
-    double InactiveIconOpacity { get; set; }
 }

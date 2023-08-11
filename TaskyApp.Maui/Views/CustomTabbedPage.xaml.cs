@@ -1,14 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using TaskyApp.Contracts.Factories;
+﻿using TaskyApp.Contracts.Factories;
 using TaskyApp.Contracts.Models;
-using TaskyApp.Contracts.ViewModels;
 using TaskyApp.Maui.SingleProject.Views.CustomViews;
 
 namespace TaskyApp.Maui.SingleProject.Views;
 
 public partial class CustomTabbedPage
 {
-    private readonly ICustomTabbedPageViewModel _viewModel;
     public CustomTabbedPage()
     {
         var view1 = App.Get<ITabItemFactory>()!.Create();
@@ -32,11 +29,10 @@ public partial class CustomTabbedPage
         };
 
 
-        _viewModel = App.Get<ICustomTabbedPageViewModelFactory>()!.Create(tabItems);
-        _viewModel.Title = "Etiquette";
+        var viewModel = App.Get<ICustomTabbedPageViewModelFactory>()!.Create(tabItems);
 
         InitializeComponent();
 
-        BindingContext = _viewModel;
+        BindingContext = viewModel;
     }
 }

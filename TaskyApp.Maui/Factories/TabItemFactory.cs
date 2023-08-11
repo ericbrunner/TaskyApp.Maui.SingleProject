@@ -1,6 +1,5 @@
 ﻿using TaskyApp.Contracts.Factories;
 using TaskyApp.Contracts.Models;
-using TaskyApp.Maui.SingleProject.Views.CustomViews;
 
 namespace TaskyApp.Maui.SingleProject.Factories;
 

@@ -2,7 +2,7 @@
 
 namespace TaskyApp.Contracts.Models;
 
-public class TabItem : ObservableObject, ITabItem
+public sealed class TabItem : ObservableObject, ITabItem
 {
     private View? _view;
 
@@ -74,12 +74,8 @@ public class TabItem : ObservableObject, ITabItem
     public double IconOpacity => IsActive ? 1.0 : InactiveIconOpacity;
 
     public double InactiveIconOpacity { get; set; }
-
-    private double _containerWidth;
-
-    public double ContainerWidth
+    public ITabItem? ShallowCopy()
     {
-        get => _containerWidth; 
-        set => SetProperty(ref _containerWidth, value);
+        return MemberwiseClone() as ITabItem;
     }
 }
