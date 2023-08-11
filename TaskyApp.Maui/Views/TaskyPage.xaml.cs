@@ -2,6 +2,7 @@
 using Camera.MAUI;
 using Camera.MAUI.ZXingHelper;
 using TaskyApp.Contracts;
+using TaskyApp.Contracts.Enums;
 using TaskyApp.Maui.SingleProject.CustomControls;
 using TaskyApp.Maui.SingleProject.CustomControls.Scanner;
 
@@ -157,6 +158,23 @@ namespace TaskyApp.Maui.SingleProject.Views
         private async void OpenCustomTabbedPage(object? sender, EventArgs e)
         {
             var customTabbedPage = new CustomTabbedPage();
+            customTabbedPage.ViewModel.TabBarType = TabBarTypeEnum.Bottom;
+
+            await Navigation.PushAsync(customTabbedPage);
+        }
+
+        private async void OpenCustomTabbedPage2(object? sender, EventArgs e)
+        {
+            var customTabbedPage = new CustomTabbedPage();
+            customTabbedPage.ViewModel.TabBarType = TabBarTypeEnum.Top;
+
+            await Navigation.PushAsync(customTabbedPage);
+        }
+
+        private async void OpenCustomTabbedPage3(object? sender, EventArgs e)
+        {
+            var customTabbedPage = new CustomTabbedPage();
+            customTabbedPage.ViewModel.TabBarType = TabBarTypeEnum.None;
 
             await Navigation.PushAsync(customTabbedPage);
         }

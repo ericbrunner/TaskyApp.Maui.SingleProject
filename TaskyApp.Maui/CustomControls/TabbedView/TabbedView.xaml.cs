@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using TaskyApp.Contracts.Enums;
 using TaskyApp.Contracts.Models;
 using Command = Microsoft.Maui.Controls.Command;
 using ITabbedView = TaskyApp.Contracts.Views.ITabbedView;
@@ -104,10 +105,68 @@ public sealed partial class TabbedView : ITabbedView, IDisposable
 
     private int _selectedTab = -1;
 
+    public static readonly BindableProperty TabBarTypeProperty = BindableProperty.Create(
+        nameof(TabBarType),
+        typeof(TabBarTypeEnum),
+        typeof(TabbedView),
+        TabBarTypeEnum.Top,
+        propertyChanged: TabBarTypePropertyChanged);
+
+    private static void TabBarTypePropertyChanged(BindableObject bindable, object oldvalue, object newvalue)
+    {
+        if (bindable is not TabbedView tabbedView) return;
+
+        TabBarTypeEnum castedBarTypeEnum = (TabBarTypeEnum)newvalue;
+
+        if (castedBarTypeEnum == TabBarTypeEnum.Top)
+        {
+            tabbedView.ShowTopTabBar = true;
+            tabbedView.ShowBottomTabBar = false;
+
+            return;
+        }
+
+        if (castedBarTypeEnum == TabBarTypeEnum.Bottom)
+        {
+            tabbedView.ShowTopTabBar = false;
+            tabbedView.ShowBottomTabBar = true;
+
+            return;
+        }
+
+        if (castedBarTypeEnum == TabBarTypeEnum.None)
+        {
+            tabbedView.ShowTopTabBar = false;
+            tabbedView.ShowBottomTabBar = false;
+        }
+    }
+
     public int SelectedTab
     {
         get => _selectedTab;
         set => SetProperty(ref _selectedTab, value);
+    }
+
+    public TabBarTypeEnum TabBarType
+    {
+        get => (TabBarTypeEnum)GetValue(TabBarTypeProperty);
+        set => SetValue(TabBarTypeProperty, value);
+    }
+
+    private bool _showTopTabBar = true;
+
+    public bool ShowTopTabBar
+    {
+        get => _showTopTabBar;
+        set => SetProperty(ref _showTopTabBar, value);
+    }
+
+    private bool _showBottomTabBar;
+
+    public bool ShowBottomTabBar
+    {
+        get => _showBottomTabBar;
+        set => SetProperty(ref _showBottomTabBar, value);
     }
 
     private void SetProperty<T>(ref T backingStore,

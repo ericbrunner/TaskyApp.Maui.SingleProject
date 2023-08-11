@@ -8,5 +8,9 @@
              x:DataType="viewModels1:ICustomTabbedPageViewModel">
 
     <tabbedView:TabbedView x:Name="TabbedView"
-                           TabItems="{Binding ItemsSource}"/>
+                           TabItems="{Binding ItemsSource}"
+                           TabBarType="{Binding TabBarType}"/>
+    
+    
+
 </ContentPage>
