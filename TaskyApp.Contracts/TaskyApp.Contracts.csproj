@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
     <PackageReference Include="System.Text.Json" Version="7.0.3" />
-    <PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
+    <PackageReference Include="CommunityToolkit.Maui" Version="5.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Factories\" />

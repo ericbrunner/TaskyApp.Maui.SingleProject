@@ -5,6 +5,7 @@ using TaskyApp.Contracts;
 using TaskyApp.Contracts.Enums;
 using TaskyApp.Maui.SingleProject.CustomControls;
 using TaskyApp.Maui.SingleProject.CustomControls.Scanner;
+using TaskyApp.Maui.SingleProject.Views.Vorgang;
 
 namespace TaskyApp.Maui.SingleProject.Views
 {
@@ -177,6 +178,13 @@ namespace TaskyApp.Maui.SingleProject.Views
             customTabbedPage.ViewModel.TabBarType = TabBarTypeEnum.None;
 
             await Navigation.PushAsync(customTabbedPage);
+        }
+
+        private async void OpenTaskPage(object? sender, EventArgs e)
+        {
+            var taskPage = new VorgangPage();
+
+            await Navigation.PushAsync(taskPage);
         }
     }
 }

@@ -16,6 +16,12 @@
 
             <StackLayout x:Name="RootLayout" Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
 
+                <Button Text="Open Task Page" Clicked="OpenTaskPage"></Button>
+
+
+                <BoxView HeightRequest="1" BackgroundColor="Blue" Margin="0,5,0,5" />
+
+
                 <Button Text="Tabbed Page (Top TaBBar)" Clicked="OpenCustomTabbedPage2"/>
                 <Button Text="Tabbed Page (Bottom TabBar)" Clicked="OpenCustomTabbedPage"/>
                 <Button Text="Tabbed Page (No TabBar)" Clicked="OpenCustomTabbedPage3"/>
